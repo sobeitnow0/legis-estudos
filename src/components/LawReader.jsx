@@ -259,12 +259,9 @@ export default function LawReader() {
                       >
                         <p
                           id={block.id}
+                          className={`notion-block notion-block-${block.type} ${block.revoked ? "notion-block-revoked" : ""}`}
                           style={{
                             flex: 1,
-                            fontSize: "0.95rem",
-                            lineHeight: "1.6",
-                            color: "var(--notion-text)",
-                            margin: 0,
                           }}
                         >
                           {renderTextWithHighlights(block.id, block.content)}

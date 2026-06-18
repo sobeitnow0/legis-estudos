@@ -345,11 +345,34 @@ h3 {
 
 /* Notion Block / Paragraph */
 .notion-block {
-  margin: 8px 0;
+  margin: 6px 0;
   min-height: 1.5em;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   position: relative;
+}
+
+.notion-block-article {
+  font-weight: 600;
+  margin-top: 14px;
+}
+
+.notion-block-paragraph-item {
+  margin-left: 20px;
+}
+
+.notion-block-inciso {
+  margin-left: 36px;
+}
+
+.notion-block-alinea {
+  margin-left: 52px;
+}
+
+.notion-block-revoked {
+  text-decoration: line-through;
+  color: var(--notion-text-secondary) !important;
+  opacity: 0.55;
 }
 
 /* Floating Formatting Toolbar for selection */

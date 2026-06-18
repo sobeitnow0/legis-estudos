@@ -120,19 +120,39 @@ function parseHtml(html) {
     if (!cleaned || cleaned.length < 3) continue;
     if (cleaned.includes("Este texto não substitui") || cleaned.includes("Presidência da República")) continue;
 
-    // Detect structural block types
+    // Detect structural block types and revoked state
     let type = "paragraph";
-    if (cleaned.startsWith("TÍTULO") || cleaned.startsWith("TItulo") || cleaned.startsWith("Título")) {
+    const isHeading2 = /^(TÍTULO|TItulo|Título|TÍTULOS)/i.test(cleaned);
+    const isHeading3 = /^(CAPÍTULO|Capítulo|SEÇÃO|Seção|SUBSEÇÃO|Subseção)/i.test(cleaned);
+    const isArticle = /^Art\.\s*/i.test(cleaned);
+    const isParagraphItem = /^(§|Parágrafo\s+único)/i.test(cleaned);
+    const isInciso = /^[IVXLCDM]+\s*[-–]/i.test(cleaned);
+    const isAlinea = /^[a-z]\)\s*/.test(cleaned);
+
+    // Detect if content is revoked/repealed based on HTML tags or text patterns
+    const isRevoked = /<(strike|s|del)>|color="#808080"|color="gray"|color="#7f7f7f"|style="[^"]*text-decoration:\s*line-through/i.test(rawContent) || 
+                      /\(revogado/i.test(cleaned) || 
+                      /declarado(a)?\s+inconstitucional/i.test(cleaned) ||
+                      /execução\s+suspensa/i.test(cleaned);
+
+    if (isHeading2) {
       type = "heading-2";
-    } else if (cleaned.startsWith("CAPÍTULO") || cleaned.startsWith("Capítulo")) {
+    } else if (isHeading3) {
       type = "heading-3";
-    } else if (cleaned.startsWith("Seção") || cleaned.startsWith("SEÇÃO")) {
-      type = "heading-3";
+    } else if (isArticle) {
+      type = "article";
+    } else if (isParagraphItem) {
+      type = "paragraph-item";
+    } else if (isInciso) {
+      type = "inciso";
+    } else if (isAlinea) {
+      type = "alinea";
     }
 
     blocks.push({
       id: `${lawId}-block-${blockIndex++}`,
       type,
+      revoked: isRevoked,
       content: cleaned
     });
   }
