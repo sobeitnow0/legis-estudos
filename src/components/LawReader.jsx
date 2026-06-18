@@ -39,7 +39,20 @@ export default function LawReader() {
 
   // Load law
   useEffect(() => {
-    const selectedLaw = lawsData.laws.find((l) => l.id === lawId);
+    // 1. Try to find in bundled demo data
+    let selectedLaw = lawsData.laws.find((l) => l.id === lawId);
+    
+    // 2. If not found, try to find in user-imported laws in localStorage
+    if (!selectedLaw) {
+      const savedUserLaws = localStorage.getItem("legis_user_laws") || "[]";
+      try {
+        const userLaws = JSON.parse(savedUserLaws);
+        selectedLaw = userLaws.find((l) => l.id === lawId);
+      } catch (e) {
+        console.error("Erro ao carregar lei do localStorage:", e);
+      }
+    }
+    
     setLaw(selectedLaw);
   }, [lawId]);
 

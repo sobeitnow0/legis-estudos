@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   BookOpen,
@@ -13,6 +13,7 @@ import {
   Award,
   HelpCircle,
   FileText,
+  Plus,
 } from "lucide-react";
 
 export default function Sidebar({
@@ -23,15 +24,30 @@ export default function Sidebar({
   onSearchClick,
 }) {
   const location = useLocation();
+  const [userLaws, setUserLaws] = useState([]);
+
+  useEffect(() => {
+    const savedUserLaws = localStorage.getItem("legis_user_laws") || "[]";
+    try {
+      setUserLaws(JSON.parse(savedUserLaws));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [location.pathname]);
 
   const menuItems = [
     { path: "/", label: "Bem-vindo(a)", icon: Sparkles },
     { path: "/resenha", label: "Resenha Diária", icon: Calendar },
   ];
 
-  const laws = [
+  const defaultLaws = [
     { id: "cf88", label: "Constituição Federal", emoji: "⚖️" },
     { id: "cp40", label: "Código Penal", emoji: "📕" },
+  ];
+
+  const allLaws = [
+    ...defaultLaws,
+    ...userLaws.map((ul) => ({ id: ul.id, label: ul.title, emoji: ul.emoji })),
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -113,12 +129,21 @@ export default function Sidebar({
           <Award size={16} />
           <span>Focos de Banca (Filtro)</span>
         </Link>
+
+        <Link
+          to="/importar"
+          className={`sidebar-item ${isActive("/importar") ? "active" : ""}`}
+          id="nav-item-importar"
+        >
+          <Plus size={16} />
+          <span>Importar do Planalto</span>
+        </Link>
       </div>
 
       {/* Legislation Section */}
       <div className="sidebar-section-title">Legislação</div>
       <div className="sidebar-menu-list">
-        {laws.map((law) => (
+        {allLaws.map((law) => (
           <Link
             key={law.id}
             to={`/lei/${law.id}`}

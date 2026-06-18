@@ -7,21 +7,38 @@ export default function CommandPalette({ isOpen, onClose }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
-  // Search items list
-  const searchItems = [
-    { id: "cf88", title: "Constituição Federal de 1988", type: "lei", subtitle: "Princípios Fundamentais, Direitos e Garantias", path: "/lei/cf88" },
-    { id: "cf88-art5", title: "Constituição: Artigo 5º", type: "artigo", subtitle: "Direitos e Deveres Individuais e Coletivos", path: "/lei/cf88?focus=cf88-art-5" },
-    { id: "cf88-art1", title: "Constituição: Artigo 1º", type: "artigo", subtitle: "Princípios Fundamentais da República", path: "/lei/cf88?focus=cf88-art-1" },
-    { id: "cp40", title: "Código Penal (Decreto-Lei 2.848/1940)", type: "lei", subtitle: "Parte Geral, Crimes contra a Pessoa", path: "/lei/cp40" },
-    { id: "resenha-hoje", title: "Resenha Diária: Atos de Hoje", type: "resenha", subtitle: "Novidades do Planalto sincronizadas", path: "/resenha" },
-    { id: "planos", title: "Filtro de Questões de Bancas", type: "ferramenta", subtitle: "Ver estatísticas da FGV, VUNESP e CESPE", path: "/planos" }
-  ];
+  const [dynamicSearchItems, setDynamicSearchItems] = useState([]);
 
-  // Focus input when opened
+  // Focus input when opened & load dynamic user laws
   useEffect(() => {
     if (isOpen) {
       setQuery("");
       setTimeout(() => inputRef.current?.focus(), 50);
+
+      const savedUserLaws = localStorage.getItem("legis_user_laws") || "[]";
+      try {
+        const userLaws = JSON.parse(savedUserLaws);
+        const mappedUserLaws = userLaws.map((ul) => ({
+          id: ul.id,
+          title: ul.title,
+          type: "lei",
+          subtitle: ul.description,
+          path: `/lei/${ul.id}`,
+        }));
+
+        const defaultItems = [
+          { id: "cf88", title: "Constituição Federal de 1988", type: "lei", subtitle: "Princípios Fundamentais, Direitos e Garantias", path: "/lei/cf88" },
+          { id: "cf88-art5", title: "Constituição: Artigo 5º", type: "artigo", subtitle: "Direitos e Deveres Individuais e Coletivos", path: "/lei/cf88?focus=cf88-art-5" },
+          { id: "cf88-art1", title: "Constituição: Artigo 1º", type: "artigo", subtitle: "Princípios Fundamentais da República", path: "/lei/cf88?focus=cf88-art-1" },
+          { id: "cp40", title: "Código Penal (Decreto-Lei 2.848/1940)", type: "lei", subtitle: "Parte Geral, Crimes contra a Pessoa", path: "/lei/cp40" },
+          { id: "resenha-hoje", title: "Resenha Diária: Atos de Hoje", type: "resenha", subtitle: "Novidades do Planalto sincronizadas", path: "/resenha" },
+          { id: "planos", title: "Filtro de Questões de Bancas", type: "ferramenta", subtitle: "Ver estatísticas da FGV, VUNESP e CESPE", path: "/planos" },
+        ];
+
+        setDynamicSearchItems([...defaultItems, ...mappedUserLaws]);
+      } catch (e) {
+        console.error("Erro ao carregar itens da busca:", e);
+      }
     }
   }, [isOpen]);
 
@@ -38,7 +55,7 @@ export default function CommandPalette({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const filteredItems = searchItems.filter(
+  const filteredItems = dynamicSearchItems.filter(
     (item) =>
       item.title.toLowerCase().includes(query.toLowerCase()) ||
       item.subtitle.toLowerCase().includes(query.toLowerCase()) ||

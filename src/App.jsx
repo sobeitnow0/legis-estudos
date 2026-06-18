@@ -8,6 +8,7 @@ import ResenhaDiaria from "./components/ResenhaDiaria";
 import LawReader from "./components/LawReader";
 import StudyPlans from "./components/StudyPlans";
 import LandingPage from "./components/LandingPage";
+import ImportLaw from "./components/ImportLaw";
 
 function AppContent() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -112,6 +113,7 @@ function AppContent() {
               {location.pathname === "/" && "✨ Bem-vindo(a)"}
               {location.pathname === "/resenha" && "📰 Resenha Diária"}
               {location.pathname === "/planos" && "🎯 Foco de Banca"}
+              {location.pathname === "/importar" && "📥 Importar do Planalto"}
               {location.pathname.startsWith("/lei/") && "📖 Leitura de Legislação"}
             </span>
           </div>
@@ -134,6 +136,7 @@ function AppContent() {
             <Route path="/resenha" element={<ResenhaDiaria />} />
             <Route path="/lei/:lawId" element={<LawReader />} />
             <Route path="/planos" element={<StudyPlans />} />
+            <Route path="/importar" element={<ImportLaw />} />
           </Routes>
         </div>
       </div>
