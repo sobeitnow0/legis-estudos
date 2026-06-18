@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HighlightingToolbar } from "./HighlightingToolbar";
-import { MessageSquare, Trash2, Tag, Info, Bookmark, HelpCircle } from "lucide-react";
+import { MessageSquare, Trash2, Tag, Info, Bookmark, Plus, Check, X, FileText } from "lucide-react";
 import lawsData from "../data/lawsDemo.json";
 
 export default function LawReader() {
   const { lawId } = useParams();
   const [searchParams] = useSearchParams();
   const focusBlockId = searchParams.get("focus");
-  const bancaFilter = searchParams.get("banca"); // e.g. 'fgv', 'cespe', 'vunesp'
+  const bancaFilter = searchParams.get("banca");
 
   const [law, setLaw] = useState(null);
   const [highlights, setHighlights] = useState({});
   const [comments, setComments] = useState({});
-  const [selectedBlockId, setSelectedBlockId] = useState(null);
-  const [newCommentText, setNewCommentText] = useState("");
+  
+  // Inline Editor State
+  const [activeInlineEditorId, setActiveInlineEditorId] = useState(null);
+  const [inlineNoteText, setInlineNoteText] = useState("");
   
   // Selection toolbar state
   const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0, visible: false });
@@ -81,7 +83,6 @@ export default function LawReader() {
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
 
-      // Position toolbar above selection
       setToolbarPosition({
         top: rect.top + window.scrollY - 44,
         left: rect.left + window.scrollX + rect.width / 2 - 120,
@@ -104,8 +105,6 @@ export default function LawReader() {
     const { blockId, text } = currentSelection;
 
     const blockHighlights = highlights[blockId] || [];
-    
-    // Simple check if this text is already highlighted, if so, update color
     const existingIndex = blockHighlights.findIndex((h) => h.text === text);
     let newHl = [...blockHighlights];
 
@@ -123,7 +122,6 @@ export default function LawReader() {
     setHighlights(updatedHighlights);
     localStorage.setItem(`legis_hl_${lawId}`, JSON.stringify(updatedHighlights));
     
-    // Clear selection
     window.getSelection().removeAllRanges();
     setToolbarPosition((prev) => ({ ...prev, visible: false }));
     setCurrentSelection(null);
@@ -136,47 +134,36 @@ export default function LawReader() {
     localStorage.setItem(`legis_hl_${lawId}`, JSON.stringify(updatedHighlights));
   };
 
-  // Comments
-  const handleSelectBlockForComments = (blockId) => {
-    setSelectedBlockId(blockId);
+  // Toggle inline editor
+  const handleOpenInlineEditor = (blockId, existingText = "") => {
+    setActiveInlineEditorId(blockId);
+    setInlineNoteText(existingText);
   };
 
-  const handleAddComment = (e) => {
-    e.preventDefault();
-    if (!newCommentText.trim()) return;
-
-    const blockComments = comments[selectedBlockId] || [];
-    const newComment = {
-      id: Date.now().toString(),
-      text: newCommentText,
-      author: "Você (Estudante)",
-      date: new Date().toLocaleDateString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-    };
-
-    const updatedComments = {
-      ...comments,
-      [selectedBlockId]: [...blockComments, newComment],
-    };
-
-    setComments(updatedComments);
-    localStorage.setItem(`legis_cm_${lawId}`, JSON.stringify(updatedComments));
-    setNewCommentText("");
-  };
-
-  const handleDeleteComment = (blockId, commentId) => {
-    const blockComments = comments[blockId] || [];
-    const filtered = blockComments.filter((c) => c.id !== commentId);
-
-    const updatedComments = {
-      ...comments,
-      [blockId]: filtered,
-    };
-    if (filtered.length === 0) {
-      delete updatedComments[blockId];
+  // Save inline note
+  const handleSaveInlineNote = (blockId) => {
+    if (!inlineNoteText.trim()) {
+      handleDeleteInlineNote(blockId);
+      return;
     }
 
+    const updatedComments = {
+      ...comments,
+      [blockId]: inlineNoteText.trim(),
+    };
+
     setComments(updatedComments);
     localStorage.setItem(`legis_cm_${lawId}`, JSON.stringify(updatedComments));
+    setActiveInlineEditorId(null);
+    setInlineNoteText("");
+  };
+
+  const handleDeleteInlineNote = (blockId) => {
+    const updatedComments = { ...comments };
+    delete updatedComments[blockId];
+    setComments(updatedComments);
+    localStorage.setItem(`legis_cm_${lawId}`, JSON.stringify(updatedComments));
+    setActiveInlineEditorId(null);
   };
 
   // Helper to render text with highlighted ranges
@@ -184,17 +171,15 @@ export default function LawReader() {
     const blockHls = highlights[blockId];
     if (!blockHls || blockHls.length === 0) return originalText;
 
-    // To prevent overlapping errors in this client-side demo, we replace keywords sorted by length
     let formattedText = originalText;
     const sortedHls = [...blockHls].sort((a, b) => b.text.length - a.text.length);
 
     sortedHls.forEach((hl) => {
-      // Escape regex chars
       const escapedText = hl.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
       const regex = new RegExp(`(${escapedText})`, "g");
       formattedText = formattedText.replace(
         regex,
-        `<span class="hl-${hl.color} font-medium px-0.5 rounded cursor-pointer" title="Remover marcações clicando no botão ao lado">$1</span>`
+        `<span class="hl-${hl.color} font-medium px-0.5 rounded cursor-pointer" title="Remover marcando na lixeira ao lado">$1</span>`
       );
     });
 
@@ -219,8 +204,8 @@ export default function LawReader() {
           <div className="notion-callout" style={{ backgroundColor: "var(--notion-hl-gray)", margin: "24px 0" }}>
             <div className="notion-callout-icon">⚡</div>
             <div className="notion-callout-content" style={{ fontSize: "0.85rem" }}>
-              Este documento está <strong>sincronizado automaticamente</strong> com as alterações do Planalto de hoje. 
-              Seus grifos e notas estão ancorados de forma segura a cada artigo e não sumirão em futuras atualizações.
+              Este documento está <strong>sincronizado automaticamente</strong> com as alterações do Planalto. 
+              Suas anotações e grifos ficam salvos diretamente sob cada bloco e persistem no seu navegador.
             </div>
           </div>
 
@@ -234,8 +219,10 @@ export default function LawReader() {
               const metric = examMetrics[lawId]?.[block.id];
               const displayMetric = metric && (!bancaFilter || metric.banca === bancaFilter);
 
-              const hasComment = (comments[block.id] || []).length > 0;
+              const savedNote = comments[block.id]; // String note text
+              const hasNote = !!savedNote;
               const hasHighlight = (highlights[block.id] || []).length > 0;
+              const isEditing = activeInlineEditorId === block.id;
 
               return (
                 <div
@@ -262,60 +249,154 @@ export default function LawReader() {
                       {block.content}
                     </h3>
                   ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "8px",
-                      }}
-                    >
-                      <p
-                        id={block.id}
-                        style={{
-                          flex: 1,
-                          fontSize: "0.95rem",
-                          lineHeight: "1.6",
-                          color: "var(--notion-text)",
-                        }}
-                      >
-                        {renderTextWithHighlights(block.id, block.content)}
-                      </p>
-
-                      {/* Right hover actions for each block */}
+                    <div>
                       <div
-                        className="block-actions"
                         style={{
                           display: "flex",
-                          gap: "4px",
-                          opacity: hasComment || hasHighlight ? 1 : 0.2,
+                          alignItems: "flex-start",
+                          gap: "8px",
                         }}
                       >
-                        <button
-                          onClick={() => handleSelectBlockForComments(block.id)}
-                          className="toolbar-btn"
-                          title="Ver anotações / Comentar"
+                        <p
+                          id={block.id}
                           style={{
-                            color: hasComment ? "var(--notion-accent)" : "inherit",
+                            flex: 1,
+                            fontSize: "0.95rem",
+                            lineHeight: "1.6",
+                            color: "var(--notion-text)",
+                            margin: 0,
                           }}
                         >
-                          <MessageSquare size={14} />
-                          {hasComment && (
-                            <span style={{ fontSize: "0.7rem", fontWeight: 700 }}>
-                              {comments[block.id].length}
-                            </span>
-                          )}
-                        </button>
-                        {hasHighlight && (
+                          {renderTextWithHighlights(block.id, block.content)}
+                        </p>
+
+                        {/* Right hover actions for each block */}
+                        <div
+                          className="block-actions"
+                          style={{
+                            display: "flex",
+                            gap: "4px",
+                            opacity: hasNote || hasHighlight || isEditing ? 1 : 0.2,
+                          }}
+                        >
                           <button
-                            onClick={() => handleClearHighlights(block.id)}
+                            onClick={() => handleOpenInlineEditor(block.id, savedNote || "")}
                             className="toolbar-btn"
-                            title="Limpar marcações"
-                            style={{ color: "#eb5757" }}
+                            title="Adicionar anotação rápida neste artigo"
+                            style={{
+                              color: hasNote ? "var(--notion-accent)" : "inherit",
+                            }}
                           >
-                            <Trash2 size={14} />
+                            <MessageSquare size={14} />
                           </button>
-                        )}
+                          {hasHighlight && (
+                            <button
+                              onClick={() => handleClearHighlights(block.id)}
+                              className="toolbar-btn"
+                              title="Limpar marcações"
+                              style={{ color: "#eb5757" }}
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
                       </div>
+
+                      {/* 📝 INLINE ANNOTATION FIELD (NOTION-STYLE EDIT OR VIEW) */}
+                      {isEditing && (
+                        <div
+                          className="animate-fade-in"
+                          style={{
+                            marginTop: "8px",
+                            marginLeft: "20px",
+                            padding: "10px",
+                            backgroundColor: "var(--notion-sidebar-bg)",
+                            border: "1px solid var(--notion-border)",
+                            borderRadius: "var(--notion-radius-lg)",
+                            boxShadow: "rgba(15, 15, 15, 0.05) 0px 2px 4px",
+                          }}
+                        >
+                          <textarea
+                            value={inlineNoteText}
+                            onChange={(e) => setInlineNoteText(e.target.value)}
+                            placeholder="Escreva sua anotação de estudos (súmulas vinculadas, mnemônicos, pegadinhas de prova...)"
+                            style={{
+                              width: "100%",
+                              minHeight: "60px",
+                              border: "none",
+                              outline: "none",
+                              background: "transparent",
+                              fontFamily: "var(--notion-font-sans)",
+                              fontSize: "0.85rem",
+                              color: "var(--notion-text)",
+                              resize: "vertical",
+                            }}
+                            autoFocus
+                          />
+                          <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "8px" }}>
+                            <button
+                              onClick={() => setActiveInlineEditorId(null)}
+                              className="notion-btn"
+                              style={{ fontSize: "0.75rem", padding: "3px 8px" }}
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              onClick={() => handleSaveInlineNote(block.id)}
+                              className="notion-btn notion-btn-primary"
+                              style={{ fontSize: "0.75rem", padding: "3px 8px" }}
+                            >
+                              <Check size={12} />
+                              <span>Salvar Nota</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Display Saved Note Inline under paragraph */}
+                      {hasNote && !isEditing && (
+                        <div
+                          className="animate-fade-in"
+                          style={{
+                            marginTop: "6px",
+                            marginLeft: "20px",
+                            padding: "8px 12px",
+                            backgroundColor: "var(--notion-hl-yellow)",
+                            borderLeft: "3px solid #f2c94c",
+                            borderRadius: "0 var(--notion-radius) var(--notion-radius) 0",
+                            fontSize: "0.85rem",
+                            color: "var(--notion-text)",
+                            position: "relative",
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
+                            <div style={{ flex: 1, lineHeight: "1.4" }}>
+                              <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)", display: "block", marginBottom: "2px", fontWeight: 600 }}>
+                                ANOTAÇÃO DE ESTUDOS
+                              </span>
+                              {savedNote}
+                            </div>
+                            <div style={{ display: "flex", gap: "4px" }}>
+                              <button
+                                onClick={() => handleOpenInlineEditor(block.id, savedNote)}
+                                className="toolbar-btn"
+                                style={{ width: "22px", height: "22px", padding: 0 }}
+                                title="Editar anotação"
+                              >
+                                ✏️
+                              </button>
+                              <button
+                                onClick={() => handleDeleteInlineNote(block.id)}
+                                className="toolbar-btn"
+                                style={{ width: "22px", height: "22px", padding: 0, color: "#eb5757" }}
+                                title="Deletar anotação"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -324,6 +405,7 @@ export default function LawReader() {
                     <div
                       style={{
                         marginTop: "6px",
+                        marginLeft: "20px",
                         fontSize: "0.75rem",
                         backgroundColor:
                           metric.banca === "fgv"
@@ -360,99 +442,6 @@ export default function LawReader() {
           onApplyHighlight={handleApplyHighlight}
           onClose={() => setToolbarPosition((prev) => ({ ...prev, visible: false }))}
         />
-      )}
-
-      {/* Comments Drawer (Sidebar on the right) */}
-      {selectedBlockId && (
-        <div className="comment-sidebar animate-fade-in">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "16px",
-              borderBottom: "1px solid var(--notion-border)",
-              paddingBottom: "8px",
-            }}
-          >
-            <strong style={{ fontSize: "0.9rem" }}>Anotações do Bloco</strong>
-            <button
-              onClick={() => setSelectedBlockId(null)}
-              className="toolbar-btn"
-              style={{ padding: "2px" }}
-            >
-              Fechar
-            </button>
-          </div>
-
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--notion-text-secondary)",
-              backgroundColor: "var(--notion-sidebar-bg)",
-              padding: "8px",
-              borderRadius: "4px",
-              marginBottom: "16px",
-              border: "1px solid var(--notion-border)",
-            }}
-          >
-            As notas adicionadas abaixo ficam vinculadas a este parágrafo específico e estarão salvas mesmo se a lei atualizar.
-          </div>
-
-          {/* Comments list */}
-          <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px" }}>
-            {(comments[selectedBlockId] || []).length > 0 ? (
-              comments[selectedBlockId].map((comment) => (
-                <div key={comment.id} className="comment-card animate-fade-in">
-                  <div className="comment-card-header">
-                    <span>{comment.author}</span>
-                    <button
-                      onClick={() => handleDeleteComment(selectedBlockId, comment.id)}
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                        color: "#eb5757",
-                      }}
-                      title="Deletar anotação"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                  <div style={{ fontSize: "0.7rem", color: "var(--notion-text-secondary)", marginBottom: "6px" }}>
-                    {comment.date}
-                  </div>
-                  <div className="comment-card-body">{comment.text}</div>
-                </div>
-              ))
-            ) : (
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: "40px 0",
-                  color: "var(--notion-text-secondary)",
-                  fontSize: "0.85rem",
-                }}
-              >
-                Nenhuma anotação neste bloco. Escreva sua primeira nota abaixo!
-              </div>
-            )}
-          </div>
-
-          {/* Comment Form */}
-          <form onSubmit={handleAddComment} className="comment-input-area">
-            <textarea
-              className="comment-textarea"
-              placeholder="Adicionar nota pessoal de estudo (ex: súmulas vinculadas, mnemônicos...)"
-              value={newCommentText}
-              onChange={(e) => setNewCommentText(e.target.value)}
-              required
-            />
-            <button type="submit" className="notion-btn notion-btn-primary" style={{ width: "100%", padding: "6px" }}>
-              Salvar Nota
-            </button>
-          </form>
-        </div>
       )}
     </div>
   );
