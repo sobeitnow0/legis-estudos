@@ -16,14 +16,14 @@
   --notion-radius-lg: 8px;
 
   /* Notion Highlight Colors (Backgrounds) */
-  --notion-hl-yellow: rgba(253, 236, 200, 0.65);
-  --notion-hl-green: rgba(221, 237, 234, 1);
-  --notion-hl-blue: rgba(221, 235, 241, 1);
-  --notion-hl-pink: rgba(244, 223, 235, 1);
-  --notion-hl-purple: rgba(234, 228, 242, 1);
-  --notion-hl-orange: rgba(250, 235, 221, 1);
-  --notion-hl-red: rgba(251, 228, 228, 1);
-  --notion-hl-gray: rgba(241, 241, 239, 1);
+  --notion-hl-yellow: #fff3a8;
+  --notion-hl-green: #cbf1d4;
+  --notion-hl-blue: #cbe6f7;
+  --notion-hl-pink: #ffd5e8;
+  --notion-hl-purple: #e5dbf9;
+  --notion-hl-orange: #ffe2c5;
+  --notion-hl-red: #ffccd2;
+  --notion-hl-gray: #e9e9e7;
 
   /* Fonts */
   --notion-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -59,14 +59,14 @@
     --notion-shadow-popover: rgba(15, 15, 15, 0.3) 0px 0px 0px 1px, rgba(15, 15, 15, 0.5) 0px 9px 24px;
 
     /* Dark Highlights */
-    --notion-hl-yellow: rgba(202, 152, 73, 0.25);
-    --notion-hl-green: rgba(52, 87, 81, 0.35);
-    --notion-hl-blue: rgba(46, 73, 97, 0.35);
-    --notion-hl-pink: rgba(88, 51, 74, 0.35);
-    --notion-hl-purple: rgba(69, 58, 90, 0.35);
-    --notion-hl-orange: rgba(100, 68, 51, 0.35);
-    --notion-hl-red: rgba(90, 50, 50, 0.35);
-    --notion-hl-gray: rgba(255, 255, 255, 0.08);
+    --notion-hl-yellow: rgba(255, 212, 59, 0.4);
+    --notion-hl-green: rgba(46, 204, 113, 0.35);
+    --notion-hl-blue: rgba(52, 152, 219, 0.4);
+    --notion-hl-pink: rgba(242, 108, 153, 0.38);
+    --notion-hl-purple: rgba(155, 81, 224, 0.42);
+    --notion-hl-orange: rgba(243, 156, 18, 0.38);
+    --notion-hl-red: rgba(231, 76, 60, 0.45);
+    --notion-hl-gray: rgba(255, 255, 255, 0.18);
   }
 }
 
@@ -83,14 +83,14 @@
   --notion-shadow-popover: rgba(15, 15, 15, 0.3) 0px 0px 0px 1px, rgba(15, 15, 15, 0.5) 0px 9px 24px;
 
   /* Dark Highlights */
-  --notion-hl-yellow: rgba(202, 152, 73, 0.25);
-  --notion-hl-green: rgba(52, 87, 81, 0.35);
-  --notion-hl-blue: rgba(46, 73, 97, 0.35);
-  --notion-hl-pink: rgba(88, 51, 74, 0.35);
-  --notion-hl-purple: rgba(69, 58, 90, 0.35);
-  --notion-hl-orange: rgba(100, 68, 51, 0.35);
-  --notion-hl-red: rgba(90, 50, 50, 0.35);
-  --notion-hl-gray: rgba(255, 255, 255, 0.08);
+  --notion-hl-yellow: rgba(255, 212, 59, 0.4);
+  --notion-hl-green: rgba(46, 204, 113, 0.35);
+  --notion-hl-blue: rgba(52, 152, 219, 0.4);
+  --notion-hl-pink: rgba(242, 108, 153, 0.38);
+  --notion-hl-purple: rgba(155, 81, 224, 0.42);
+  --notion-hl-orange: rgba(243, 156, 18, 0.38);
+  --notion-hl-red: rgba(231, 76, 60, 0.45);
+  --notion-hl-gray: rgba(255, 255, 255, 0.18);
 }
 
 * {
