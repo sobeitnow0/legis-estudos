@@ -150,7 +150,7 @@ export default function Sidebar({
           id="nav-item-landing"
         >
           <FileText size={16} />
-          <span>Mariana's Case (Vendas)</span>
+          <span>Página de Apresentação</span>
         </Link>
       </div>
 

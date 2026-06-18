@@ -272,11 +272,10 @@ export default function LawReader() {
 
                         {/* Right hover actions for each block */}
                         <div
-                          className="block-actions"
+                          className={`block-actions ${hasNote || hasHighlight || isEditing ? "has-active-content" : ""}`}
                           style={{
                             display: "flex",
                             gap: "4px",
-                            opacity: hasNote || hasHighlight || isEditing ? 1 : 0.2,
                           }}
                         >
                           <button

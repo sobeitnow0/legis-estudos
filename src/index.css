@@ -499,3 +499,18 @@ h3 {
 .animate-fade-in {
   animation: fadeIn 0.25s ease-out forwards;
 }
+
+/* Block Actions Hover Transition */
+.block-actions {
+  opacity: 0.15;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notion-block-container:hover .block-actions {
+  opacity: 1;
+}
+
+.block-actions.has-active-content {
+  opacity: 1 !important;
+}
+

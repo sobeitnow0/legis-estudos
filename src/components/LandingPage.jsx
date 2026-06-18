@@ -83,15 +83,11 @@ export default function LandingPage() {
           <span>Tempo de leitura: 4 min</span>
         </div>
 
-        {/* Mariana's Case study - Notion quote */}
+        {/* Case study - Notion quote */}
         <div className="notion-callout" style={{ borderLeft: "4px solid #eb5757" }}>
           <div className="notion-callout-icon">🚨</div>
           <div className="notion-callout-content">
-            <strong>O Caso de Mariana:</strong> Concurseira dedicada há 3 anos, Mariana estudou
-            a lei seca por PDFs e Vade Mecums impressos. Gastou mais de <strong>R$ 1.200</strong> em
-            livros de doutrina e legislação. No último concurso, ela perdeu a aprovação por 1 única
-            questão — ela respondeu corretamente conforme estava grifado em seu material de estudos, mas
-            a lei havia sido alterada no site do Planalto há apenas 2 meses, invalidando sua resposta.
+            <strong>O Risco do Estudo Tradicional:</strong> Estudar a lei seca por PDFs estáticos ou Vade Mecums impressos é o maior ralo de tempo na preparação. Livros caros desatualizam em poucos meses, e a cada nova versão de PDF você perde todos os seus grifos e anotações. No dia da prova, uma única lei que mudou recentemente e não estava atualizada no seu material pode custar a sua aprovação.
           </div>
         </div>
 
