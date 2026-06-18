@@ -1,0 +1,212 @@
+{
+  "laws": [
+    {
+      "id": "cf88",
+      "title": "Constituição Federal de 1988",
+      "emoji": "⚖️",
+      "type": "Constituição Federal",
+      "description": "Texto Constitucional promulgado em 5 de outubro de 1988, com atualizações periódicas integradas.",
+      "blocks": [
+        {
+          "id": "cf88-titulo-1",
+          "type": "heading-2",
+          "content": "TÍTULO I — Dos Princípios Fundamentais"
+        },
+        {
+          "id": "cf88-art-1",
+          "type": "paragraph",
+          "content": "Art. 1º A República Federativa do Brasil, formada pela união indissolúvel dos Estados e Municípios e do Distrito Federal, constitui-se em Estado Democrático de Direito e tem como fundamentos:"
+        },
+        {
+          "id": "cf88-art-1-i",
+          "type": "paragraph",
+          "content": "I - a soberania;"
+        },
+        {
+          "id": "cf88-art-1-ii",
+          "type": "paragraph",
+          "content": "II - a cidadania;"
+        },
+        {
+          "id": "cf88-art-1-iii",
+          "type": "paragraph",
+          "content": "III - a dignidade da pessoa humana;"
+        },
+        {
+          "id": "cf88-art-1-iv",
+          "type": "paragraph",
+          "content": "IV - os valores sociais do trabalho e da livre iniciativa;"
+        },
+        {
+          "id": "cf88-art-1-v",
+          "type": "paragraph",
+          "content": "V - o pluralismo político."
+        },
+        {
+          "id": "cf88-art-1-par-unico",
+          "type": "paragraph",
+          "content": "Parágrafo único. Todo o poder emana do povo, que o exerce por meio de representantes eleitos ou diretamente, nos termos desta Constituição."
+        },
+        {
+          "id": "cf88-art-2",
+          "type": "paragraph",
+          "content": "Art. 2º São Poderes da União, independentes e harmônicos entre si, o Legislativo, o Executivo e o Judiciário."
+        },
+        {
+          "id": "cf88-art-3",
+          "type": "paragraph",
+          "content": "Art. 3º Constituem objetivos fundamentais da República Federativa do Brasil:"
+        },
+        {
+          "id": "cf88-art-3-i",
+          "type": "paragraph",
+          "content": "I - construir uma sociedade livre, justa e solidária;"
+        },
+        {
+          "id": "cf88-art-3-ii",
+          "type": "paragraph",
+          "content": "II - garantir o desenvolvimento nacional;"
+        },
+        {
+          "id": "cf88-art-3-iii",
+          "type": "paragraph",
+          "content": "III - erradicar a pobreza e a marginalização e reduzir as desigualdades sociais e regionais;"
+        },
+        {
+          "id": "cf88-art-3-iv",
+          "type": "paragraph",
+          "content": "IV - promover o bem de todos, sem preconceitos de origem, raça, sexo, cor, idade e quaisquer outras formas de discriminação."
+        },
+        {
+          "id": "cf88-art-4",
+          "type": "paragraph",
+          "content": "Art. 4º A República Federativa do Brasil rege-se nas suas relações internacionais pelos seguintes princípios:"
+        },
+        {
+          "id": "cf88-art-4-i",
+          "type": "paragraph",
+          "content": "I - independência nacional;"
+        },
+        {
+          "id": "cf88-art-4-ii",
+          "type": "paragraph",
+          "content": "II - prevalência dos direitos humanos;"
+        },
+        {
+          "id": "cf88-art-4-iii",
+          "type": "paragraph",
+          "content": "III - autodeterminação dos povos;"
+        },
+        {
+          "id": "cf88-art-4-iv",
+          "type": "paragraph",
+          "content": "IV - não-intervenção;"
+        },
+        {
+          "id": "cf88-art-4-v",
+          "type": "paragraph",
+          "content": "V - igualdade entre os Estados;"
+        },
+        {
+          "id": "cf88-art-4-vi",
+          "type": "paragraph",
+          "content": "VI - defesa da paz;"
+        },
+        {
+          "id": "cf88-art-4-vii",
+          "type": "paragraph",
+          "content": "VII - solução pacífica dos conflitos;"
+        },
+        {
+          "id": "cf88-art-4-viii",
+          "type": "paragraph",
+          "content": "VIII - repúdio ao terrorismo e ao racismo;"
+        },
+        {
+          "id": "cf88-art-4-ix",
+          "type": "paragraph",
+          "content": "IX - cooperação entre os povos para o progresso da humanidade;"
+        },
+        {
+          "id": "cf88-art-4-x",
+          "type": "paragraph",
+          "content": "X - concessão de asilo político."
+        },
+        {
+          "id": "cf88-art-4-par-unico",
+          "type": "paragraph",
+          "content": "Parágrafo único. A República Federativa do Brasil buscará a integração econômica, política, social e cultural dos povos da América Latina, visando à formação de uma comunidade latino-americana de nações."
+        },
+        {
+          "id": "cf88-titulo-2",
+          "type": "heading-2",
+          "content": "TÍTULO II — Dos Direitos e Garantias Fundamentais"
+        },
+        {
+          "id": "cf88-cap-1",
+          "type": "heading-3",
+          "content": "CAPÍTULO I — Dos Direitos e Deveres Individuais e Coletivos"
+        },
+        {
+          "id": "cf88-art-5",
+          "type": "paragraph",
+          "content": "Art. 5º Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes:"
+        },
+        {
+          "id": "cf88-art-5-i",
+          "type": "paragraph",
+          "content": "I - homens e mulheres são iguais em direitos e obrigações, nos termos desta Constituição;"
+        },
+        {
+          "id": "cf88-art-5-ii",
+          "type": "paragraph",
+          "content": "II - ninguém será obrigado a fazer ou deixar de fazer alguma coisa senão em virtude de lei;"
+        },
+        {
+          "id": "cf88-art-5-iii",
+          "type": "paragraph",
+          "content": "III - ninguém será submetido a tortura nem a tratamento desumano ou degradante;"
+        },
+        {
+          "id": "cf88-art-5-iv",
+          "type": "paragraph",
+          "content": "IV - é livre a manifestação do pensamento, sendo vedado o anonimato;"
+        },
+        {
+          "id": "cf88-art-5-v",
+          "type": "paragraph",
+          "content": "V - é assegurado o direito de resposta, proporcional ao agravo, além da indenização por dano material, moral ou à imagem;"
+        },
+        {
+          "id": "cf88-art-5-vi",
+          "type": "paragraph",
+          "content": "VI - é inviolável a liberdade de consciência e de crença, sendo assegurado o livre exercício dos cultos religiosos e garantida, na forma da lei, a proteção aos locais de culto e a suas liturgias;"
+        }
+      ]
+    },
+    {
+      "id": "cp40",
+      "title": "Código Penal (Decreto-Lei 2.848/1940)",
+      "emoji": "📕",
+      "type": "Código",
+      "description": "Excertos do Código Penal Brasileiro referente à parte geral e crimes contra a administração.",
+      "blocks": [
+        {
+          "id": "cp-art-1",
+          "type": "paragraph",
+          "content": "Art. 1º - Não há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal."
+        },
+        {
+          "id": "cp-art-2",
+          "type": "paragraph",
+          "content": "Art. 2º - Ninguém pode ser punido por fato que lei posterior deixa de considerar crime, cessando em virtude dela a execução e os efeitos penais da sentença condenatória."
+        },
+        {
+          "id": "cp-art-3",
+          "type": "paragraph",
+          "content": "Art. 3º - A lei excepcional ou temporária, embora decorrido o período de sua duração ou cessadas as circunstâncias que a determinaram, aplica-se ao fato praticado durante a sua vigência."
+        }
+      ]
+    }
+  ]
+}
