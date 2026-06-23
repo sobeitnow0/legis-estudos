@@ -14,6 +14,7 @@ import {
   HelpCircle,
   FileText,
   Plus,
+  Database,
 } from "lucide-react";
 
 export default function Sidebar({
@@ -121,14 +122,6 @@ export default function Sidebar({
           );
         })}
 
-        <Link
-          to="/planos"
-          className={`sidebar-item ${isActive("/planos") ? "active" : ""}`}
-          id="nav-item-planos"
-        >
-          <Award size={16} />
-          <span>Focos de Banca (Filtro)</span>
-        </Link>
 
         <Link
           to="/importar"
@@ -137,6 +130,15 @@ export default function Sidebar({
         >
           <Plus size={16} />
           <span>Importar do Planalto</span>
+        </Link>
+
+        <Link
+          to="/backup"
+          className={`sidebar-item ${isActive("/backup") ? "active" : ""}`}
+          id="nav-item-backup"
+        >
+          <Database size={16} />
+          <span>Backup e Restauração</span>
         </Link>
       </div>
 
@@ -166,18 +168,7 @@ export default function Sidebar({
         ))}
       </div>
 
-      {/* Meta/Vendas Section */}
-      <div className="sidebar-section-title">Sobre o Projeto</div>
-      <div className="sidebar-menu-list">
-        <Link
-          to="/landing"
-          className={`sidebar-item ${isActive("/landing") ? "active" : ""}`}
-          id="nav-item-landing"
-        >
-          <FileText size={16} />
-          <span>Página de Apresentação</span>
-        </Link>
-      </div>
+
 
       {/* Bottom controls */}
       <div

@@ -152,18 +152,37 @@ export default function ImportLaw({ onLawImported }) {
         blocks,
       };
 
-      // Save to localStorage list
+      // Save full content separately
+      localStorage.setItem(`legis_law_content_${lawId}`, JSON.stringify(newLaw));
+
+      // Save metadata only to the list
       const savedUserLaws = localStorage.getItem("legis_user_laws") || "[]";
       const userLawsList = JSON.parse(savedUserLaws);
 
+      const lawMeta = {
+        id: newLaw.id,
+        title: newLaw.title,
+        emoji: newLaw.emoji,
+        type: newLaw.type,
+        description: newLaw.description,
+      };
+
       const existingIdx = userLawsList.findIndex((l) => l.id === lawId);
       if (existingIdx > -1) {
-        userLawsList[existingIdx] = newLaw;
+        userLawsList[existingIdx] = lawMeta;
       } else {
-        userLawsList.push(newLaw);
+        userLawsList.push(lawMeta);
       }
 
       localStorage.setItem("legis_user_laws", JSON.stringify(userLawsList));
+      
+      // Invalidate mention cache so the newly imported law is available for @mentions
+      try {
+        const { invalidateMentionCache } = await import("./editor/suggestion");
+        invalidateMentionCache();
+      } catch (cacheErr) {
+        console.error("Erro ao invalidar cache de menções:", cacheErr);
+      }
       
       setStatus(`Importação concluída com sucesso! ${blocks.length} blocos cadastrados.`);
       setUrl("");

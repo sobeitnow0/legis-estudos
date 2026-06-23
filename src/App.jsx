@@ -6,9 +6,8 @@ import CommandPalette from "./components/CommandPalette";
 import Dashboard from "./components/Dashboard";
 import ResenhaDiaria from "./components/ResenhaDiaria";
 import LawReader from "./components/LawReader";
-import StudyPlans from "./components/StudyPlans";
-import LandingPage from "./components/LandingPage";
 import ImportLaw from "./components/ImportLaw";
+import BackupRestore from "./components/BackupRestore";
 
 function AppContent() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -18,6 +17,38 @@ function AppContent() {
   });
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const location = useLocation();
+
+  // Migration for legacy user laws in localStorage
+  useEffect(() => {
+    try {
+      const savedUserLaws = localStorage.getItem("legis_user_laws");
+      if (savedUserLaws) {
+        const userLaws = JSON.parse(savedUserLaws);
+        let needsMigration = false;
+        
+        const migratedList = userLaws.map((law) => {
+          // If the law object has the blocks array, it is using the old format
+          if (law.blocks) {
+            needsMigration = true;
+            // Extract content and save separately
+            localStorage.setItem(`legis_law_content_${law.id}`, JSON.stringify(law));
+            
+            // Return metadata only
+            const { blocks, ...meta } = law;
+            return meta;
+          }
+          return law;
+        });
+
+        if (needsMigration) {
+          localStorage.setItem("legis_user_laws", JSON.stringify(migratedList));
+          console.log("Migração de leis do localStorage concluída com sucesso!");
+        }
+      }
+    } catch (e) {
+      console.error("Erro ao rodar migração de leis locais:", e);
+    }
+  }, []);
 
   // Apply dark mode theme class on mount and change
   useEffect(() => {
@@ -51,23 +82,6 @@ function AppContent() {
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  // If the path is /landing, render without sidebar for clean sales layout
-  const isLandingPage = location.pathname === "/landing";
-
-  if (isLandingPage) {
-    return (
-      <>
-        <LandingPage />
-        {/* Floating home button to return to workspace */}
-        <div style={{ position: "fixed", bottom: "24px", left: "24px", zIndex: 100 }}>
-          <Link to="/" className="notion-btn notion-btn-primary" style={{ boxShadow: "var(--notion-shadow-popover)" }}>
-            <Sparkles size={16} />
-            <span>Voltar ao Workspace</span>
-          </Link>
-        </div>
-      </>
-    );
-  }
 
   return (
     <div className="app-container">
@@ -112,8 +126,8 @@ function AppContent() {
             <span style={{ color: "var(--notion-text)", fontWeight: 500 }}>
               {location.pathname === "/" && "✨ Bem-vindo(a)"}
               {location.pathname === "/resenha" && "📰 Resenha Diária"}
-              {location.pathname === "/planos" && "🎯 Foco de Banca"}
               {location.pathname === "/importar" && "📥 Importar do Planalto"}
+              {location.pathname === "/backup" && "💾 Backup e Restauração"}
               {location.pathname.startsWith("/lei/") && "📖 Leitura de Legislação"}
             </span>
           </div>
@@ -130,13 +144,13 @@ function AppContent() {
         </div>
 
         {/* Content routing */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <div className="notion-content-wrapper" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/resenha" element={<ResenhaDiaria />} />
             <Route path="/lei/:lawId" element={<LawReader />} />
-            <Route path="/planos" element={<StudyPlans />} />
             <Route path="/importar" element={<ImportLaw />} />
+            <Route path="/backup" element={<BackupRestore />} />
           </Routes>
         </div>
       </div>

@@ -1,15 +1,15 @@
 import React from "react";
 import { Bold, Italic, Underline, Trash2 } from "lucide-react";
 
-export function HighlightingToolbar({ position, onApplyHighlight, onClose }) {
+export function HighlightingToolbar({ position, onApplyHighlight, onApplyFormat, onClose }) {
   const colors = [
-    { name: "yellow", title: "Amarelo", colorCode: "#fdecb4" },
-    { name: "green", title: "Verde", colorCode: "#ddedea" },
-    { name: "blue", title: "Azul", colorCode: "#ddebfa" },
-    { name: "pink", title: "Rosa", colorCode: "#f4dfeb" },
-    { name: "purple", title: "Roxo", colorCode: "#eae4f2" },
-    { name: "orange", title: "Laranja", colorCode: "#faebdd" },
-    { name: "red", title: "Vermelho", colorCode: "#fbe4e4" },
+    { name: "yellow", title: "Amarelo", colorCode: "#fff3a8" },
+    { name: "green", title: "Verde", colorCode: "#cbf1d4" },
+    { name: "blue", title: "Azul", colorCode: "#cbe6f7" },
+    { name: "pink", title: "Rosa", colorCode: "#ffd5e8" },
+    { name: "purple", title: "Roxo", colorCode: "#e5dbf9" },
+    { name: "orange", title: "Laranja", colorCode: "#ffe2c5" },
+    { name: "red", title: "Vermelho", colorCode: "#ffccd2" },
   ];
 
   return (
@@ -34,14 +34,14 @@ export function HighlightingToolbar({ position, onApplyHighlight, onClose }) {
         e.preventDefault();
       }}
     >
-      {/* Formatting Mock buttons */}
-      <button className="toolbar-btn" title="Negrito">
-        <Bold size={14} />
+      {/* Formatting Active buttons */}
+      <button onClick={() => onApplyFormat("bold")} className="toolbar-btn" title="Negrito (B)">
+        <Bold size={14} style={{ strokeWidth: 3 }} />
       </button>
-      <button className="toolbar-btn" title="Itálico">
+      <button onClick={() => onApplyFormat("italic")} className="toolbar-btn" title="Itálico (I)">
         <Italic size={14} />
       </button>
-      <button className="toolbar-btn" title="Sublinhado">
+      <button onClick={() => onApplyFormat("underline")} className="toolbar-btn" title="Sublinhado (U)">
         <Underline size={14} />
       </button>
 

@@ -1,93 +1,121 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HighlightingToolbar } from "./HighlightingToolbar";
-import { MessageSquare, Trash2, Tag, Info, Bookmark, Plus, Check, X, FileText } from "lucide-react";
+import { 
+  Bookmark, Trash2, ChevronLeft, ChevronRight, CheckCircle, 
+  AlertTriangle, BookOpen, Clock, Tag, MessageSquare
+} from "lucide-react";
 import lawsData from "../data/lawsDemo.json";
+import RichTextEditor from "./editor/RichTextEditor";
 
 export default function LawReader() {
   const { lawId } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const focusBlockId = searchParams.get("focus");
-  const bancaFilter = searchParams.get("banca");
 
   const [law, setLaw] = useState(null);
-  const [highlights, setHighlights] = useState({});
-  const [comments, setComments] = useState({});
+  const [activeNoteBlockId, setActiveNoteBlockId] = useState(null);
   
-  // Inline Editor State
+  // Inline Editor States
   const [activeInlineEditorId, setActiveInlineEditorId] = useState(null);
   const [inlineNoteText, setInlineNoteText] = useState("");
   
+  // Data persistence states
+  const [highlights, setHighlights] = useState({});
+  const [comments, setComments] = useState({});
+  const [blockStatuses, setBlockStatuses] = useState({}); // { [blockId]: 'read' | 'review' }
+
   // Selection toolbar state
   const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0, visible: false });
   const [currentSelection, setCurrentSelection] = useState(null);
 
-  const articleRefs = useRef({});
-
-  // Mock bank metrics for filter
-  const examMetrics = {
-    cf88: {
-      "cf88-art-1": { banca: "cespe", year: "2025", rate: "Alta incidência" },
-      "cf88-art-2": { banca: "vunesp", year: "2024", rate: "Média incidência" },
-      "cf88-art-5": { banca: "fgv", year: "2026", rate: "Altíssima incidência" }
-    },
-    cp40: {
-      "cp-art-1": { banca: "fgv", year: "2025", rate: "Alta incidência" },
-      "cp-art-2": { banca: "cespe", year: "2026", rate: "Altíssima incidência" }
-    }
-  };
-
-  // Load law
+  // Load law from local storage or demo data
   useEffect(() => {
-    // 1. Try to find in bundled demo data
     let selectedLaw = lawsData.laws.find((l) => l.id === lawId);
     
-    // 2. If not found, try to find in user-imported laws in localStorage
     if (!selectedLaw) {
-      const savedUserLaws = localStorage.getItem("legis_user_laws") || "[]";
       try {
-        const userLaws = JSON.parse(savedUserLaws);
-        selectedLaw = userLaws.find((l) => l.id === lawId);
+        const savedContent = localStorage.getItem(`legis_law_content_${lawId}`);
+        if (savedContent) {
+          selectedLaw = JSON.parse(savedContent);
+        }
       } catch (e) {
         console.error("Erro ao carregar lei do localStorage:", e);
       }
     }
     
     setLaw(selectedLaw);
-  }, [lawId]);
+    
+    if (selectedLaw && selectedLaw.blocks && selectedLaw.blocks.length > 0) {
+      // Focus element if specified in URL query params
+      if (focusBlockId) {
+        setActiveNoteBlockId(focusBlockId);
+        setTimeout(() => {
+          const el = document.getElementById(focusBlockId);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+            el.classList.add("active-note-block");
+            setTimeout(() => {
+              el.classList.remove("active-note-block");
+            }, 2000);
+          }
+        }, 500);
+      } else {
+        // Default to first block
+        setActiveNoteBlockId(selectedLaw.blocks[0].id);
+      }
+    }
+  }, [lawId, focusBlockId]);
 
-  // Load highlights and comments from localStorage
+  // Load highlights, comments, and statuses from localStorage
   useEffect(() => {
     const savedHl = localStorage.getItem(`legis_hl_${lawId}`) || "{}";
     const savedCm = localStorage.getItem(`legis_cm_${lawId}`) || "{}";
+    const savedSt = localStorage.getItem(`legis_status_${lawId}`) || "{}";
     setHighlights(JSON.parse(savedHl));
     setComments(JSON.parse(savedCm));
+    setBlockStatuses(JSON.parse(savedSt));
   }, [lawId]);
 
-  // Focus block if specified in URL query params
+  // Automatic "Lido" (read) status timer: 30 seconds focused on the same block
   useEffect(() => {
-    if (focusBlockId && articleRefs.current[focusBlockId]) {
-      setTimeout(() => {
-        articleRefs.current[focusBlockId].scrollIntoView({ behavior: "smooth", block: "center" });
-        articleRefs.current[focusBlockId].style.backgroundColor = "var(--notion-active)";
-        setTimeout(() => {
-          if (articleRefs.current[focusBlockId]) {
-            articleRefs.current[focusBlockId].style.backgroundColor = "transparent";
-          }
-        }, 1500);
-      }, 300);
-    }
-  }, [focusBlockId, law]);
+    if (!activeNoteBlockId || !lawId) return;
 
-  if (!law) {
+    const timer = setTimeout(() => {
+      setBlockStatuses((prev) => {
+        // If it's already marked as 'read' or 'review', do not overwrite
+        if (prev[activeNoteBlockId] === "read" || prev[activeNoteBlockId] === "review") {
+          return prev;
+        }
+        const updated = { ...prev, [activeNoteBlockId]: "read" };
+        localStorage.setItem(`legis_status_${lawId}`, JSON.stringify(updated));
+        return updated;
+      });
+    }, 30000); // 30 seconds
+
+    return () => clearTimeout(timer);
+  }, [activeNoteBlockId, lawId]);
+
+  if (!law || !law.blocks || law.blocks.length === 0) {
     return (
-      <div style={{ padding: "40px", textAlign: "center" }}>
+      <div style={{ padding: "40px", textAlign: "center", color: "var(--notion-text-secondary)" }}>
         Carregando legislação...
       </div>
     );
   }
 
-  // Handle text selection
+  // Find list of all articles for select navigation
+  const articlesList = law.blocks.filter(b => b.type === "article");
+
+  const handleJumpToArticle = (articleId) => {
+    setActiveNoteBlockId(articleId);
+    const el = document.getElementById(articleId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  // Handle highlights
   const handleTextSelection = (e, blockId) => {
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
@@ -147,39 +175,65 @@ export default function LawReader() {
     localStorage.setItem(`legis_hl_${lawId}`, JSON.stringify(updatedHighlights));
   };
 
-  // Toggle inline editor
-  const handleOpenInlineEditor = (blockId, existingText = "") => {
-    setActiveInlineEditorId(blockId);
-    setInlineNoteText(existingText);
+  // Status handlers (manual toggle for review)
+  const handleToggleStatus = (blockId, statusType) => {
+    const current = blockStatuses[blockId];
+    
+    let nextStatus = statusType;
+    if (current === statusType) {
+      nextStatus = null; // Toggle off
+    }
+
+    const updated = {
+      ...blockStatuses,
+      [blockId]: nextStatus
+    };
+    setBlockStatuses(updated);
+    localStorage.setItem(`legis_status_${lawId}`, JSON.stringify(updated));
   };
 
-  // Save inline note
+  // Inline editor toggle
+  const handleOpenInlineEditor = (blockId) => {
+    setActiveInlineEditorId(blockId);
+    setInlineNoteText(comments[blockId] || "");
+  };
+
+  // Save Note Handler (automatically marks block as read)
   const handleSaveInlineNote = (blockId) => {
     if (!inlineNoteText.trim()) {
-      handleDeleteInlineNote(blockId);
+      handleDeleteNote(blockId);
+      setActiveInlineEditorId(null);
       return;
     }
 
     const updatedComments = {
       ...comments,
-      [blockId]: inlineNoteText.trim(),
+      [blockId]: inlineNoteText.trim()
     };
-
     setComments(updatedComments);
     localStorage.setItem(`legis_cm_${lawId}`, JSON.stringify(updatedComments));
+
+    // Automatically mark as read when note is saved (unless it's already marked as review)
+    setBlockStatuses((prev) => {
+      if (prev[blockId] === "read" || prev[blockId] === "review") {
+        return prev;
+      }
+      const updated = { ...prev, [blockId]: "read" };
+      localStorage.setItem(`legis_status_${lawId}`, JSON.stringify(updated));
+      return updated;
+    });
+
     setActiveInlineEditorId(null);
-    setInlineNoteText("");
   };
 
-  const handleDeleteInlineNote = (blockId) => {
+  const handleDeleteNote = (blockId) => {
     const updatedComments = { ...comments };
     delete updatedComments[blockId];
     setComments(updatedComments);
     localStorage.setItem(`legis_cm_${lawId}`, JSON.stringify(updatedComments));
-    setActiveInlineEditorId(null);
   };
 
-  // Helper to render text with highlighted ranges
+  // Text highlighting renderer helper
   const renderTextWithHighlights = (blockId, originalText) => {
     const blockHls = highlights[blockId];
     if (!blockHls || blockHls.length === 0) return originalText;
@@ -192,7 +246,7 @@ export default function LawReader() {
       const regex = new RegExp(`(${escapedText})`, "g");
       formattedText = formattedText.replace(
         regex,
-        `<span class="hl-${hl.color} font-medium px-0.5 rounded cursor-pointer" title="Remover marcando na lixeira ao lado">$1</span>`
+        `<span class="hl-${hl.color} font-medium px-0.5 rounded cursor-pointer">${hl.text}</span>`
       );
     });
 
@@ -200,251 +254,209 @@ export default function LawReader() {
   };
 
   return (
-    <div style={{ display: "flex", flex: 1, position: "relative" }}>
-      {/* Law reader pane */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "120px" }}>
-          {/* Header emoji and metadata */}
-          <div className="notion-page-header-emoji">{law.emoji}</div>
-          <h1 style={{ fontSize: "2.2rem", fontWeight: 700, marginBottom: "8px" }}>
-            {law.title}
-          </h1>
-          <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
-            {law.description}
-          </p>
-
-          {/* Alert notification indicating synchrony */}
-          <div className="notion-callout" style={{ backgroundColor: "var(--notion-hl-gray)", margin: "24px 0" }}>
-            <div className="notion-callout-icon">⚡</div>
-            <div className="notion-callout-content" style={{ fontSize: "0.85rem" }}>
-              Este documento está <strong>sincronizado automaticamente</strong> com as alterações do Planalto. 
-              Suas anotações e grifos ficam salvos diretamente sob cada bloco e persistem no seu navegador.
-            </div>
+    <div style={{ flex: 1, backgroundColor: "var(--notion-bg)", display: "flex", flexDirection: "column" }}>
+      <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "120px", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+        
+        {/* Navigation Dropdown & Header metadata */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "28px" }}>
+          <div className="article-select-container">
+            <BookOpen size={15} style={{ color: "var(--notion-accent)" }} />
+            <select
+              onChange={(e) => handleJumpToArticle(e.target.value)}
+              className="article-select"
+              defaultValue=""
+            >
+              <option value="" disabled>Ir para artigo...</option>
+              {articlesList.map((art) => {
+                const label = art.content.substring(0, 45);
+                return (
+                  <option key={art.id} value={art.id}>
+                    {art.content.match(/^Art\.\s*\d+[^\s]*/i)?.[0] || "Artigo"} - {label.replace(/^Art\.\s*(\d+[^\s]*)\s*[-–]?\s*/i, "")}...
+                  </option>
+                );
+              })}
+            </select>
           </div>
+          
+          <div style={{ fontSize: "0.85rem", color: "var(--notion-text-secondary)", fontWeight: 500 }}>
+            {law.title} — {law.type}
+          </div>
+        </div>
 
-          {/* Render Blocks */}
-          <div style={{ position: "relative" }}>
-            {law.blocks.map((block) => {
-              const isH2 = block.type === "heading-2";
-              const isH3 = block.type === "heading-3";
-              const isFocused = focusBlockId === block.id;
+        {/* Scrollable Blocks List */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          
+          {law.blocks.map((block) => {
+            const isH2 = block.type === "heading-2";
+            const isH3 = block.type === "heading-3";
+            const isArticle = block.type === "article";
+            const isActive = activeNoteBlockId === block.id;
+            const status = blockStatuses[block.id];
+            const hasNotes = !!comments[block.id];
 
-              const metric = examMetrics[lawId]?.[block.id];
-              const displayMetric = metric && (!bancaFilter || metric.banca === bancaFilter);
-
-              const savedNote = comments[block.id]; // String note text
-              const hasNote = !!savedNote;
-              const hasHighlight = (highlights[block.id] || []).length > 0;
-              const isEditing = activeInlineEditorId === block.id;
-
+            if (isH2) {
               return (
-                <div
-                  key={block.id}
-                  ref={(el) => (articleRefs.current[block.id] = el)}
-                  onMouseUp={(e) => !isH2 && !isH3 && handleTextSelection(e, block.id)}
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "4px",
-                    borderLeft: isFocused ? "3px solid var(--notion-accent)" : "none",
-                    position: "relative",
-                    transition: "background-color 0.2s",
-                    marginBottom: "4px",
-                  }}
-                  className="notion-block-container"
+                <div 
+                  key={block.id} 
+                  id={block.id} 
+                  onClick={() => setActiveNoteBlockId(block.id)}
+                  className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
+                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
                 >
-                  {/* Block content render based on type */}
-                  {isH2 ? (
-                    <h2 id={block.id} style={{ margin: "24px 0 12px 0", fontSize: "1.4rem" }}>
-                      {block.content}
-                    </h2>
-                  ) : isH3 ? (
-                    <h3 id={block.id} style={{ margin: "16px 0 8px 0", fontSize: "1.15rem" }}>
-                      {block.content}
-                    </h3>
-                  ) : (
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          gap: "8px",
-                        }}
-                      >
-                        <p
-                          id={block.id}
-                          className={`notion-block notion-block-${block.type} ${block.revoked ? "notion-block-revoked" : ""}`}
-                          style={{
-                            flex: 1,
-                          }}
-                        >
-                          {renderTextWithHighlights(block.id, block.content)}
-                        </p>
-
-                        {/* Right hover actions for each block */}
-                        <div
-                          className={`block-actions ${hasNote || hasHighlight || isEditing ? "has-active-content" : ""}`}
-                          style={{
-                            display: "flex",
-                            gap: "4px",
-                          }}
-                        >
-                          <button
-                            onClick={() => handleOpenInlineEditor(block.id, savedNote || "")}
-                            className="toolbar-btn"
-                            title="Adicionar anotação rápida neste artigo"
-                            style={{
-                              color: hasNote ? "var(--notion-accent)" : "inherit",
-                            }}
-                          >
-                            <MessageSquare size={14} />
-                          </button>
-                          {hasHighlight && (
-                            <button
-                              onClick={() => handleClearHighlights(block.id)}
-                              className="toolbar-btn"
-                              title="Limpar marcações"
-                              style={{ color: "#eb5757" }}
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* 📝 INLINE ANNOTATION FIELD (NOTION-STYLE EDIT OR VIEW) */}
-                      {isEditing && (
-                        <div
-                          className="animate-fade-in"
-                          style={{
-                            marginTop: "8px",
-                            marginLeft: "20px",
-                            padding: "10px",
-                            backgroundColor: "var(--notion-sidebar-bg)",
-                            border: "1px solid var(--notion-border)",
-                            borderRadius: "var(--notion-radius-lg)",
-                            boxShadow: "rgba(15, 15, 15, 0.05) 0px 2px 4px",
-                          }}
-                        >
-                          <textarea
-                            value={inlineNoteText}
-                            onChange={(e) => setInlineNoteText(e.target.value)}
-                            placeholder="Escreva sua anotação de estudos (súmulas vinculadas, mnemônicos, pegadinhas de prova...)"
-                            style={{
-                              width: "100%",
-                              minHeight: "60px",
-                              border: "none",
-                              outline: "none",
-                              background: "transparent",
-                              fontFamily: "var(--notion-font-sans)",
-                              fontSize: "0.85rem",
-                              color: "var(--notion-text)",
-                              resize: "vertical",
-                            }}
-                            autoFocus
-                          />
-                          <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "8px" }}>
-                            <button
-                              onClick={() => setActiveInlineEditorId(null)}
-                              className="notion-btn"
-                              style={{ fontSize: "0.75rem", padding: "3px 8px" }}
-                            >
-                              Cancelar
-                            </button>
-                            <button
-                              onClick={() => handleSaveInlineNote(block.id)}
-                              className="notion-btn notion-btn-primary"
-                              style={{ fontSize: "0.75rem", padding: "3px 8px" }}
-                            >
-                              <Check size={12} />
-                              <span>Salvar Nota</span>
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Display Saved Note Inline under paragraph */}
-                      {hasNote && !isEditing && (
-                        <div
-                          className="animate-fade-in"
-                          style={{
-                            marginTop: "6px",
-                            marginLeft: "20px",
-                            padding: "8px 12px",
-                            backgroundColor: "var(--notion-hl-yellow)",
-                            borderLeft: "3px solid #f2c94c",
-                            borderRadius: "0 var(--notion-radius) var(--notion-radius) 0",
-                            fontSize: "0.85rem",
-                            color: "var(--notion-text)",
-                            position: "relative",
-                          }}
-                        >
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
-                            <div style={{ flex: 1, lineHeight: "1.4" }}>
-                              <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)", display: "block", marginBottom: "2px", fontWeight: 600 }}>
-                                ANOTAÇÃO DE ESTUDOS
-                              </span>
-                              {savedNote}
-                            </div>
-                            <div style={{ display: "flex", gap: "4px" }}>
-                              <button
-                                onClick={() => handleOpenInlineEditor(block.id, savedNote)}
-                                className="toolbar-btn"
-                                style={{ width: "22px", height: "22px", padding: 0 }}
-                                title="Editar anotação"
-                              >
-                                ✏️
-                              </button>
-                              <button
-                                onClick={() => handleDeleteInlineNote(block.id)}
-                                className="toolbar-btn"
-                                style={{ width: "22px", height: "22px", padding: 0, color: "#eb5757" }}
-                                title="Deletar anotação"
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Exam highlights callout inside article */}
-                  {displayMetric && (
-                    <div
-                      style={{
-                        marginTop: "6px",
-                        marginLeft: "20px",
-                        fontSize: "0.75rem",
-                        backgroundColor:
-                          metric.banca === "fgv"
-                            ? "rgba(170, 59, 255, 0.08)"
-                            : "rgba(35, 131, 226, 0.08)",
-                        border: "1px solid var(--notion-border)",
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                        color: "var(--notion-text-secondary)",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <Bookmark size={12} style={{ color: "var(--notion-accent)" }} />
-                      <span>
-                        Cobrado pela <strong>{metric.banca.toUpperCase()}</strong> ({metric.year}) —{" "}
-                        <span style={{ color: "#eb5757", fontWeight: 600 }}>{metric.rate}</span>
-                      </span>
-                    </div>
-                  )}
+                  <h2 id={`h2-${block.id}`} style={{ margin: "24px 0 12px 0", fontSize: "1.45rem", border: "none", padding: 0 }}>
+                    {block.content}
+                  </h2>
                 </div>
               );
-            })}
-          </div>
+            }
+
+            if (isH3) {
+              return (
+                <div 
+                  key={block.id} 
+                  id={block.id} 
+                  onClick={() => setActiveNoteBlockId(block.id)}
+                  className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
+                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
+                >
+                  <h3 id={`h3-${block.id}`} style={{ margin: "16px 0 8px 0", fontSize: "1.15rem", color: "var(--notion-text-secondary)" }}>
+                    {block.content}
+                  </h3>
+                </div>
+              );
+            }
+
+            return (
+              <div
+                key={block.id}
+                id={block.id}
+                onClick={() => setActiveNoteBlockId(block.id)}
+                onMouseUp={(e) => handleTextSelection(e, block.id)}
+                className={`notion-block-container ${isActive ? "active-note-block" : ""} ${isArticle ? "vercel-article-card" : ""}`}
+                style={{
+                  padding: isArticle ? "16px" : "8px 12px",
+                  borderRadius: isArticle ? "var(--notion-radius-lg)" : "var(--notion-radius)",
+                  border: isArticle ? "1px solid var(--notion-border)" : "none",
+                  backgroundColor: isArticle ? "var(--notion-sidebar-bg)" : "transparent",
+                  boxShadow: isArticle ? "var(--notion-shadow)" : "none",
+                  cursor: "pointer",
+                  transition: "all 0.15s",
+                  marginBottom: isArticle ? "12px" : "2px"
+                }}
+              >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                  {isArticle && (
+                    <span
+                      style={{
+                        backgroundColor: "var(--notion-accent)",
+                        color: "white",
+                        padding: "2px 8px",
+                        borderRadius: "12px",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        whiteSpace: "nowrap"
+                      }}
+                    >
+                      Art. {block.content.match(/^Art\.\s*(\d+[^\s]*)/i)?.[1] || "Ativo"}
+                    </span>
+                  )}
+                  
+                  <p
+                    className={`notion-block notion-block-${block.type} ${block.revoked ? "notion-block-revoked" : ""}`}
+                    style={{ 
+                      flex: 1, 
+                      margin: 0, 
+                      fontSize: isArticle ? "1.05rem" : "0.95rem", 
+                      fontWeight: isArticle ? 500 : 400,
+                      lineHeight: isArticle ? 1.6 : 1.5 
+                    }}
+                  >
+                    {isArticle ? (
+                      renderTextWithHighlights(
+                        block.id, 
+                        block.content.replace(/^Art\.\s*(\d+[^\s]*)\s*[-–]?\s*/i, "")
+                      )
+                    ) : (
+                      renderTextWithHighlights(block.id, block.content)
+                    )}
+                  </p>
+
+                  {/* Inline visual indicators */}
+                  <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                    {status === "read" && (
+                      <CheckCircle size={14} style={{ color: "#2ecc71" }} title="Lido" />
+                    )}
+                    {status === "review" && (
+                      <AlertTriangle size={14} style={{ color: "#f2c94c" }} title="Para revisão" />
+                    )}
+                  </div>
+
+                  {/* Hover Action Buttons */}
+                  <div className="block-hover-actions">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleToggleStatus(block.id, "review"); }} 
+                      className="hover-action-btn"
+                      title="Marcar para revisar"
+                      style={{ color: status === "review" ? "#f5a623" : "inherit" }}
+                    >
+                      <AlertTriangle size={13} fill={status === "review" ? "#f5a623" : "none"} />
+                    </button>
+                    
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleOpenInlineEditor(block.id); }} 
+                      className="hover-action-btn"
+                      title="Escrever anotação"
+                    >
+                      <MessageSquare size={13} />
+                    </button>
+
+                    {highlights[block.id] && (
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleClearHighlights(block.id); }} 
+                        className="hover-action-btn"
+                        title="Limpar marcações"
+                        style={{ color: "#eb5757" }}
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Inline Note Editor */}
+                {activeInlineEditorId === block.id && (
+                  <div onClick={(e) => e.stopPropagation()} style={{ marginTop: "12px", paddingLeft: "12px" }}>
+                    <RichTextEditor
+                      key={`inline-edit-${block.id}`}
+                      content={inlineNoteText}
+                      onChange={setInlineNoteText}
+                      onCancel={() => setActiveInlineEditorId(null)}
+                      onSave={() => handleSaveInlineNote(block.id)}
+                    />
+                  </div>
+                )}
+
+                {/* Inline Saved Note display */}
+                {hasNotes && activeInlineEditorId !== block.id && (
+                  <div onClick={(e) => e.stopPropagation()} className="inline-note-card animate-fade-in" style={{ marginTop: "10px", marginLeft: "12px" }}>
+                    <div className="inline-note-header">
+                      <span>ANOTAÇÃO DE ESTUDOS</span>
+                      <div className="inline-note-actions">
+                        <button onClick={() => handleOpenInlineEditor(block.id)} className="note-action-btn" title="Editar nota">✏️</button>
+                        <button onClick={() => handleDeleteNote(block.id)} className="note-action-btn" title="Excluir nota" style={{ color: "#eb5757" }}><Trash2 size={12} /></button>
+                      </div>
+                    </div>
+                    <div className="ProseMirror rich-editor-display" dangerouslySetInnerHTML={{ __html: comments[block.id] }} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
         </div>
       </div>
 
-      {/* Floating Selection Toolbar */}
+      {/* Floating Highlight Selector Toolbar */}
       {toolbarPosition.visible && (
         <HighlightingToolbar
           position={toolbarPosition}
