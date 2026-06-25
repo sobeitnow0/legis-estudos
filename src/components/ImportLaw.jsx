@@ -202,12 +202,12 @@ export default function ImportLaw({ onLawImported }) {
   };
 
   return (
-    <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "120px" }}>
-      <div className="notion-page-header-emoji">📥</div>
+    <div className="figma-page-frame animate-fade-in" style={{ paddingBottom: "120px" }}>
+      <div className="figma-page-header-emoji">📥</div>
       <h1 style={{ fontSize: "2.2rem", fontWeight: 700, marginBottom: "8px" }}>
         Importar Leis e Códigos do Planalto
       </h1>
-      <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
+      <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
         Digite ou cole qualquer link de legislação compilada do Planalto.gov.br para integrá-lo instantaneamente ao seu espaço de estudos.
       </p>
 
@@ -215,7 +215,7 @@ export default function ImportLaw({ onLawImported }) {
       <h2 style={{ fontSize: "1.2rem", border: "none", marginBottom: "12px", padding: 0 }}>
         Sugestões de Importação Rápida
       </h2>
-      <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.85rem", marginBottom: "16px" }}>
+      <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.85rem", marginBottom: "16px" }}>
         Clique em um dos atalhos das principais leis cobradas em concursos e exames para preencher os dados de importação:
       </p>
 
@@ -224,19 +224,19 @@ export default function ImportLaw({ onLawImported }) {
           <div
             key={suggest.id}
             onClick={() => handleSuggestionClick(suggest)}
-            className="notion-card"
+            className="figma-card"
             style={{
               padding: "16px",
               marginBottom: 0,
-              border: lawId === suggest.id ? "1.5px solid var(--notion-accent)" : "1px solid var(--notion-border)",
-              backgroundColor: lawId === suggest.id ? "var(--notion-active)" : "var(--notion-bg)",
+              border: lawId === suggest.id ? "1.5px solid var(--figma-accent)" : "1px solid var(--figma-border)",
+              backgroundColor: lawId === suggest.id ? "var(--figma-active)" : "var(--figma-bg)",
             }}
           >
             <div style={{ fontSize: "1.4rem", marginBottom: "6px" }}>{suggest.emoji}</div>
-            <strong style={{ fontSize: "0.85rem", display: "block", color: "var(--notion-text)", marginBottom: "4px" }}>
+            <strong style={{ fontSize: "0.85rem", display: "block", color: "var(--figma-text)", marginBottom: "4px" }}>
               {suggest.name.split("(")[0]}
             </strong>
-            <span style={{ fontSize: "0.7rem", color: "var(--notion-text-secondary)", textTransform: "uppercase", fontWeight: 600 }}>
+            <span style={{ fontSize: "0.7rem", color: "var(--figma-text-secondary)", textTransform: "uppercase", fontWeight: 600 }}>
               {suggest.type}
             </span>
           </div>
@@ -244,7 +244,7 @@ export default function ImportLaw({ onLawImported }) {
       </div>
 
       {/* Form */}
-      <div className="notion-card" style={{ cursor: "default", padding: "24px" }}>
+      <div className="figma-card" style={{ cursor: "default", padding: "24px" }}>
         <h3 style={{ margin: "0 0 16px 0", fontSize: "1.1rem" }}>Configurações de Importação</h3>
         
         <form onSubmit={handleImport} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -262,10 +262,10 @@ export default function ImportLaw({ onLawImported }) {
               style={{
                 width: "100%",
                 padding: "8px 12px",
-                borderRadius: "var(--notion-radius)",
-                border: "1px solid var(--notion-border)",
-                backgroundColor: "var(--notion-bg)",
-                color: "var(--notion-text)",
+                borderRadius: "var(--figma-radius)",
+                border: "1px solid var(--figma-border)",
+                backgroundColor: "var(--figma-bg)",
+                color: "var(--figma-text)",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -286,10 +286,10 @@ export default function ImportLaw({ onLawImported }) {
               style={{
                 width: "100%",
                 padding: "8px 12px",
-                borderRadius: "var(--notion-radius)",
-                border: "1px solid var(--notion-border)",
-                backgroundColor: "var(--notion-bg)",
-                color: "var(--notion-text)",
+                borderRadius: "var(--figma-radius)",
+                border: "1px solid var(--figma-border)",
+                backgroundColor: "var(--figma-bg)",
+                color: "var(--figma-text)",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -304,9 +304,9 @@ export default function ImportLaw({ onLawImported }) {
                 gap: "8px",
                 alignItems: "center",
                 padding: "10px",
-                backgroundColor: "var(--notion-hl-red)",
+                backgroundColor: "var(--figma-hl-red)",
                 border: "1px solid rgba(235, 87, 87, 0.2)",
-                borderRadius: "var(--notion-radius)",
+                borderRadius: "var(--figma-radius)",
                 color: "#c0392b",
                 fontSize: "0.8rem"
               }}
@@ -323,10 +323,10 @@ export default function ImportLaw({ onLawImported }) {
                 gap: "8px",
                 alignItems: "center",
                 padding: "10px",
-                backgroundColor: status.includes("sucesso") ? "var(--notion-hl-green)" : "var(--notion-hl-gray)",
-                border: "1px solid var(--notion-border)",
-                borderRadius: "var(--notion-radius)",
-                color: status.includes("sucesso") ? "#1e824c" : "var(--notion-text)",
+                backgroundColor: status.includes("sucesso") ? "var(--figma-hl-green)" : "var(--figma-hl-gray)",
+                border: "1px solid var(--figma-border)",
+                borderRadius: "var(--figma-radius)",
+                color: status.includes("sucesso") ? "#1e824c" : "var(--figma-text)",
                 fontSize: "0.8rem"
               }}
             >
@@ -341,7 +341,7 @@ export default function ImportLaw({ onLawImported }) {
 
           <button
             type="submit"
-            className="notion-btn notion-btn-primary"
+            className="figma-btn figma-btn-primary"
             disabled={loading}
             style={{ padding: "10px", width: "100%", marginTop: "8px", fontSize: "0.9rem" }}
           >

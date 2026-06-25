@@ -99,28 +99,28 @@ export default function BackupRestore() {
   };
 
   return (
-    <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "120px" }}>
-      <div className="notion-page-header-emoji">💾</div>
+    <div className="figma-page-frame animate-fade-in" style={{ paddingBottom: "120px" }}>
+      <div className="figma-page-header-emoji">💾</div>
       <h1 style={{ fontSize: "2.2rem", fontWeight: 700, marginBottom: "8px" }}>
         Backup e Restauração de Dados
       </h1>
-      <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
+      <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
         Todos os seus dados (anotações de estudo, trechos grifados, progresso de leitura e leis importadas) ficam salvos localmente no seu navegador. Use esta página para salvar cópias de segurança ou transferir seus estudos para outro dispositivo.
       </p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px", marginBottom: "32px" }}>
         {/* Export Card */}
-        <div className="notion-card" style={{ padding: "24px", display: "flex", flexDirection: "column", height: "100%" }}>
+        <div className="figma-card" style={{ padding: "24px", display: "flex", flexDirection: "column", height: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-            <Download size={24} style={{ color: "var(--notion-accent)" }} />
+            <Download size={24} style={{ color: "var(--figma-accent)" }} />
             <h3 style={{ margin: 0, fontSize: "1.15rem" }}>Exportar Progresso</h3>
           </div>
-          <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.85rem", flex: 1, marginBottom: "20px" }}>
+          <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.85rem", flex: 1, marginBottom: "20px" }}>
             Gere um arquivo `.json` com todas as suas anotações, destaques coloridos, status de leitura dos artigos e legislações que você importou do Planalto.
           </p>
           <button
             onClick={handleExport}
-            className="notion-btn notion-btn-primary"
+            className="figma-btn figma-btn-primary"
             style={{ width: "100%", justifyContent: "center", padding: "10px", fontSize: "0.9rem" }}
             disabled={loading}
           >
@@ -130,12 +130,12 @@ export default function BackupRestore() {
         </div>
 
         {/* Import Card */}
-        <div className="notion-card" style={{ padding: "24px", display: "flex", flexDirection: "column", height: "100%" }}>
+        <div className="figma-card" style={{ padding: "24px", display: "flex", flexDirection: "column", height: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
             <Upload size={24} style={{ color: "#27ae60" }} />
             <h3 style={{ margin: 0, fontSize: "1.15rem" }}>Restaurar Progresso</h3>
           </div>
-          <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.85rem", flex: 1, marginBottom: "20px" }}>
+          <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.85rem", flex: 1, marginBottom: "20px" }}>
             Selecione um arquivo de backup `.json` exportado anteriormente para restaurar todas as suas leis e anotações. <strong>Atenção:</strong> Isso substituirá seus dados atuais no navegador.
           </p>
           
@@ -149,8 +149,8 @@ export default function BackupRestore() {
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="notion-btn"
-            style={{ width: "100%", justifyContent: "center", padding: "10px", border: "1px dashed var(--notion-border)", fontSize: "0.9rem" }}
+            className="figma-btn"
+            style={{ width: "100%", justifyContent: "center", padding: "10px", border: "1px dashed var(--figma-border)", fontSize: "0.9rem" }}
             disabled={loading}
           >
             {loading ? <RefreshCw size={16} className="animate-spin" /> : <Upload size={16} />}
@@ -168,9 +168,9 @@ export default function BackupRestore() {
             gap: "10px",
             alignItems: "center",
             padding: "12px 16px",
-            backgroundColor: "var(--notion-hl-red)",
+            backgroundColor: "var(--figma-hl-red)",
             border: "1px solid rgba(235, 87, 87, 0.2)",
-            borderRadius: "var(--notion-radius)",
+            borderRadius: "var(--figma-radius)",
             color: "#c0392b",
             fontSize: "0.85rem",
             marginBottom: "24px"
@@ -189,9 +189,9 @@ export default function BackupRestore() {
             gap: "10px",
             alignItems: "center",
             padding: "12px 16px",
-            backgroundColor: "var(--notion-hl-green)",
+            backgroundColor: "var(--figma-hl-green)",
             border: "1px solid rgba(39, 174, 96, 0.2)",
-            borderRadius: "var(--notion-radius)",
+            borderRadius: "var(--figma-radius)",
             color: "#1e824c",
             fontSize: "0.85rem",
             marginBottom: "24px"
@@ -203,9 +203,9 @@ export default function BackupRestore() {
       )}
 
       {/* Informações Úteis */}
-      <div className="notion-callout" style={{ backgroundColor: "var(--notion-hl-gray)", border: "1px solid var(--notion-border)" }}>
-        <div className="notion-callout-icon">💡</div>
-        <div className="notion-callout-content" style={{ fontSize: "0.85rem", lineHeight: "1.5" }}>
+      <div className="figma-callout" style={{ backgroundColor: "var(--figma-hl-gray)", border: "1px solid var(--figma-border)" }}>
+        <div className="figma-callout-icon">💡</div>
+        <div className="figma-callout-content" style={{ fontSize: "0.85rem", lineHeight: "1.5" }}>
           <strong>Dica:</strong> Recomenda-se realizar o backup periodicamente (por exemplo, após sessões intensas de estudo) ou antes de limpar os cookies/dados de navegação do seu browser, para garantir que você nunca perca suas anotações.
         </div>
       </div>

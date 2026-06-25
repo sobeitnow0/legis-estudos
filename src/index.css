@@ -1,40 +1,60 @@
 /* legis-estudos: Vercel Geist Design System */
 
 :root {
-  /* Color Palette (Vercel Geist Light Mode) */
-  --notion-bg: #fafafa; /* Canvas */
-  --notion-text: #171717; /* Ink */
-  --notion-text-secondary: #4d4d4d; /* Body */
-  --notion-sidebar-bg: #ffffff; /* Elevated */
-  --notion-border: #ebebeb; /* Hairline */
-  --notion-hover: #f2f2f2; /* Hairline-Soft */
-  --notion-active: #eaeaea; 
-  --notion-accent: #0070f3; /* Vercel Blue */
-  --notion-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); /* Whisper shadow */
-  --notion-shadow-popover: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.1);
-  --notion-radius: 6px; /* rounded.sm */
-  --notion-radius-lg: 12px; /* rounded.md */
+  /* Figma Base Monochrome */
+  --figma-primary: #000000;
+  --figma-on-primary: #ffffff;
+  --figma-canvas: #ffffff;
+  --figma-inverse-canvas: #000000;
+  --figma-ink: #000000;
+  --figma-inverse-ink: #ffffff;
+  --figma-hairline: #e6e6e6;
+  --figma-surface-soft: #f7f7f5;
 
-  /* Notion Highlight Colors (Geist Pastel Accents) */
-  --notion-hl-yellow: #fff3a8;
-  --notion-hl-green: #d3f9d8;
-  --notion-hl-blue: #d0ebff;
-  --notion-hl-pink: #ffdeeb;
-  --notion-hl-purple: #f3f0ff;
-  --notion-hl-orange: #ffe8cc;
-  --notion-hl-red: #ffe3e3;
-  --notion-hl-gray: #f1f3f5;
+  /* Figma Pastel Blocks */
+  --figma-block-lime: #dceeb1;
+  --figma-block-lilac: #c5b0f4;
+  --figma-block-cream: #f4ecd6;
+  --figma-block-pink: #efd4d4;
+  --figma-block-mint: #c8e6cd;
+  --figma-block-coral: #f3c9b6;
+  --figma-block-navy: #1f1d3d;
+  --figma-accent-magenta: #ff3d8b;
+
+  /* Legacy layout mapping */
+  --figma-bg: var(--figma-canvas);
+  --figma-text: var(--figma-ink);
+  --figma-text-secondary: var(--figma-ink); /* Figma doesn't use mid-gray */
+  --figma-sidebar-bg: var(--figma-surface-soft);
+  --figma-border: var(--figma-hairline);
+  --figma-hover: #f1f1f1;
+  --figma-active: #e6e6e6; 
+  --figma-accent: var(--figma-primary); /* Primary actions are black */
+  --figma-shadow: none; /* Figma relies on color blocks, not shadows */
+  --figma-radius: 8px; /* rounded.md */
+  --figma-radius-lg: 24px; /* rounded.lg */
+
+  /* Figma Highlight Colors (Vibrant Pastels) */
+  --figma-hl-yellow: var(--figma-block-lime); /* #dceeb1 */
+  --figma-hl-green: var(--figma-block-mint);  /* #c8e6cd */
+  --figma-hl-purple: var(--figma-block-lilac); /* #c5b0f4 */
+  --figma-hl-pink: var(--figma-block-pink);    /* #efd4d4 */
+  --figma-hl-orange: var(--figma-block-coral); /* #f3c9b6 */
+  --figma-hl-blue: #a3c4f3; /* strong pastel blue */
+  --figma-hl-red: #ffadad;  /* strong pastel red */
+  --figma-hl-gray: #e0e0e0;
 
   /* Fonts */
-  --notion-font-sans: "Geist Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --notion-font-serif: "Playfair Display", Georgia, serif;
-  --notion-font-mono: "Geist Mono", "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --figma-font-sans: "Inter", "Geist Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --figma-font-serif: "Playfair Display", Georgia, serif;
+  --figma-font-mono: "JetBrains Mono", "Geist Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  background-color: var(--notion-bg);
-  color: var(--notion-text-secondary);
-  font-family: var(--notion-font-sans);
-  font-size: 15px;
-  line-height: 1.6;
+  background-color: var(--figma-bg);
+  color: var(--figma-text);
+  font-family: var(--figma-font-sans);
+  font-size: 18px; /* body default size */
+  font-weight: 320; /* light body */
+  line-height: 1.45;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,55 +64,6 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Dark Mode Override (Triggered by class .dark on html/body or system preference) */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light-theme) {
-    --notion-bg: #131118; /* very dark plum canvas */
-    --notion-text: #ececec; /* slightly off white ink */
-    --notion-text-secondary: #9a94a6; /* body */
-    --notion-sidebar-bg: #1c1924; /* elevated surface */
-    --notion-border: rgba(255, 255, 255, 0.08); /* hairline */
-    --notion-hover: rgba(255, 255, 255, 0.05);
-    --notion-active: rgba(255, 255, 255, 0.08);
-    --notion-accent: #8b5cf6;
-    --notion-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    --notion-shadow-popover: 0px 8px 32px rgba(0, 0, 0, 0.4);
-
-    /* Dark Highlights */
-    --notion-hl-yellow: rgba(255, 212, 59, 0.25);
-    --notion-hl-green: rgba(46, 204, 113, 0.2);
-    --notion-hl-blue: rgba(52, 152, 219, 0.25);
-    --notion-hl-pink: rgba(242, 108, 153, 0.22);
-    --notion-hl-purple: rgba(155, 81, 224, 0.26);
-    --notion-hl-orange: rgba(243, 156, 18, 0.22);
-    --notion-hl-red: rgba(231, 76, 60, 0.25);
-    --notion-hl-gray: rgba(255, 255, 255, 0.1);
-  }
-}
-
-:root.dark-theme {
-  --notion-bg: #131118;
-  --notion-text: #ececec;
-  --notion-text-secondary: #9a94a6;
-  --notion-sidebar-bg: #1c1924;
-  --notion-border: rgba(255, 255, 255, 0.08);
-  --notion-hover: rgba(255, 255, 255, 0.05);
-  --notion-active: rgba(255, 255, 255, 0.08);
-  --notion-accent: #8b5cf6;
-  --notion-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  --notion-shadow-popover: 0px 8px 32px rgba(0, 0, 0, 0.4);
-
-  /* Dark Highlights */
-  --notion-hl-yellow: rgba(255, 212, 59, 0.25);
-  --notion-hl-green: rgba(46, 204, 113, 0.2);
-  --notion-hl-blue: rgba(52, 152, 219, 0.25);
-  --notion-hl-pink: rgba(242, 108, 153, 0.22);
-  --notion-hl-purple: rgba(155, 81, 224, 0.26);
-  --notion-hl-orange: rgba(243, 156, 18, 0.22);
-  --notion-hl-red: rgba(231, 76, 60, 0.25);
-  --notion-hl-gray: rgba(255, 255, 255, 0.1);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -100,13 +71,13 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--notion-bg);
-  color: var(--notion-text);
+  background-color: var(--figma-bg);
+  color: var(--figma-text);
   height: 100vh;
   overflow: hidden;
 }
 
-/* Scrollbar Notion-style */
+/* Scrollbar Figma-style */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -115,29 +86,29 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--notion-border);
+  background: var(--figma-border);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--notion-text-secondary);
+  background: var(--figma-text-secondary);
 }
 
 /* Custom Highlight styles */
-.hl-yellow { background-color: var(--notion-hl-yellow); }
-.hl-green { background-color: var(--notion-hl-green); }
-.hl-blue { background-color: var(--notion-hl-blue); }
-.hl-pink { background-color: var(--notion-hl-pink); }
-.hl-purple { background-color: var(--notion-hl-purple); }
-.hl-orange { background-color: var(--notion-hl-orange); }
-.hl-red { background-color: var(--notion-hl-red); }
-.hl-gray { background-color: var(--notion-hl-gray); }
+.hl-yellow { background-color: var(--figma-hl-yellow); }
+.hl-green { background-color: var(--figma-hl-green); }
+.hl-blue { background-color: var(--figma-hl-blue); }
+.hl-pink { background-color: var(--figma-hl-pink); }
+.hl-purple { background-color: var(--figma-hl-purple); }
+.hl-orange { background-color: var(--figma-hl-orange); }
+.hl-red { background-color: var(--figma-hl-red); }
+.hl-gray { background-color: var(--figma-hl-gray); }
 
-/* Typography & Notion-like Content Elements */
+/* Typography & Figma-like Content Elements */
 h1, h2, h3, h4 {
   font-weight: 600;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
-  color: var(--notion-text);
+  color: var(--figma-text);
   line-height: 1.25;
 }
 
@@ -155,37 +126,37 @@ h3 {
   letter-spacing: -0.4px; /* heading-md tracking */
 }
 
-/* Notion Callout Box */
-.notion-callout {
+/* Figma Callout Box */
+.figma-callout {
   display: flex;
   padding: 16px 16px 16px 12px;
-  border-radius: var(--notion-radius-lg);
-  border: 1px solid var(--notion-border);
-  background-color: var(--notion-sidebar-bg);
+  border-radius: var(--figma-radius-lg);
+  border: 1px solid var(--figma-border);
+  background-color: var(--figma-sidebar-bg);
   margin: 1.5em 0;
   gap: 12px;
   align-items: flex-start;
 }
-.notion-callout-icon {
+.figma-callout-icon {
   font-size: 1.4rem;
   line-height: 1;
   user-select: none;
 }
-.notion-callout-content {
+.figma-callout-content {
   flex: 1;
   font-size: 0.95rem;
 }
 
-/* Notion Quote block */
-.notion-quote {
-  border-left: 3px solid var(--notion-text);
+/* Figma Quote block */
+.figma-quote {
+  border-left: 3px solid var(--figma-text);
   padding-left: 14px;
   margin: 1.2em 0;
   font-style: italic;
 }
 
 /* Buttons */
-.notion-btn {
+.figma-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -193,38 +164,38 @@ h3 {
   padding: 6px 12px;
   font-size: 0.9rem;
   font-weight: 500;
-  border-radius: var(--notion-radius);
-  border: 1px solid var(--notion-border);
-  background-color: var(--notion-bg);
-  color: var(--notion-text);
+  border-radius: var(--figma-radius);
+  border: 1px solid var(--figma-border);
+  background-color: var(--figma-bg);
+  color: var(--figma-text);
   cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s;
   user-select: none;
 }
-.notion-btn:hover {
-  background-color: var(--notion-hover);
+.figma-btn:hover {
+  background-color: var(--figma-hover);
 }
-.notion-btn-primary {
-  background-color: var(--notion-accent);
+.figma-btn-primary {
+  background-color: var(--figma-accent);
   color: white;
   border-color: transparent;
 }
-.notion-btn-primary:hover {
+.figma-btn-primary:hover {
   background-color: #0761d1; /* Vercel Blue Deep */
 }
 
-/* Notion-style Page Layout */
+/* Figma-style Page Layout */
 .app-container {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-/* Notion Sidebar */
-.notion-sidebar {
-  width: 240px;
-  background-color: var(--notion-sidebar-bg);
-  border-right: 1px solid var(--notion-border);
+/* Figma Sidebar */
+.figma-sidebar {
+  width: 260px;
+  background-color: var(--figma-block-cream);
+  border-right: none;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -236,7 +207,7 @@ h3 {
   transition: transform 0.3s ease, width 0.3s ease;
 }
 
-.notion-sidebar.collapsed {
+.figma-sidebar.collapsed {
   width: 0px;
   transform: translateX(-240px);
   overflow: hidden;
@@ -270,17 +241,17 @@ h3 {
   padding: 6px 10px;
   font-size: 0.9rem;
   font-weight: 500;
-  border-radius: var(--notion-radius);
-  color: var(--notion-text);
+  border-radius: var(--figma-radius);
+  color: var(--figma-text);
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.1s;
 }
 .sidebar-item:hover {
-  background-color: var(--notion-hover);
+  background-color: var(--figma-hover);
 }
 .sidebar-item.active {
-  background-color: var(--notion-active);
+  background-color: var(--figma-active);
   font-weight: 600;
 }
 .sidebar-section-title {
@@ -289,20 +260,21 @@ h3 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
 }
 
 /* Main Content Area */
-.notion-main {
+.figma-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--figma-canvas);
 }
 
-.notion-content-wrapper {
+.figma-content-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -310,21 +282,21 @@ h3 {
   height: calc(100vh - 45px);
 }
 
-.notion-navbar {
-  height: 45px;
-  border-bottom: 1px solid var(--notion-border);
+.figma-navbar {
+  height: 56px;
+  border-bottom: 1px solid var(--figma-hairline);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  background-color: var(--notion-bg);
+  padding: 0 24px;
+  background-color: var(--figma-canvas);
   position: sticky;
   top: 0;
-  z-index: 90;
+  z-index: 10;
 }
 
-/* Page Frame Notion-style (700px readable content width) */
-.notion-page-frame {
+/* Page Frame Figma-style (700px readable content width) */
+.figma-page-frame {
   max-width: 760px;
   width: 100%;
   margin: 0 auto;
@@ -333,31 +305,31 @@ h3 {
 }
 
 @media (max-width: 768px) {
-  .notion-page-frame {
+  .figma-page-frame {
     padding: 24px 16px;
   }
 }
 
-/* Notion Cover and Icon styling */
-.notion-page-header-emoji {
+/* Figma Cover and Icon styling */
+.figma-page-header-emoji {
   font-size: 4.5rem;
   line-height: 1;
   margin-bottom: 16px;
   margin-top: 20px;
 }
-.notion-page-title-input {
+.figma-page-title-input {
   width: 100%;
   font-size: 2.5rem;
   font-weight: 700;
   border: none;
   outline: none;
   background: transparent;
-  color: var(--notion-text);
+  color: var(--figma-text);
   margin-bottom: 24px;
 }
 
-/* Notion Block / Paragraph */
-.notion-block {
+/* Figma Block / Paragraph */
+.figma-block {
   margin: 6px 0;
   min-height: 1.5em;
   font-size: 0.95rem;
@@ -365,36 +337,36 @@ h3 {
   position: relative;
 }
 
-.notion-block-article {
+.figma-block-article {
   font-weight: 600;
   margin-top: 14px;
 }
 
-.notion-block-paragraph-item {
+.figma-block-paragraph-item {
   margin-left: 20px;
 }
 
-.notion-block-inciso {
+.figma-block-inciso {
   margin-left: 36px;
 }
 
-.notion-block-alinea {
+.figma-block-alinea {
   margin-left: 52px;
 }
 
-.notion-block-revoked {
+.figma-block-revoked {
   text-decoration: line-through;
-  color: var(--notion-text-secondary) !important;
+  color: var(--figma-text-secondary) !important;
   opacity: 0.55;
 }
 
 /* Floating Formatting Toolbar for selection */
 .floating-toolbar {
   position: absolute;
-  background: var(--notion-bg);
-  border: 1px solid var(--notion-border);
-  box-shadow: var(--notion-shadow-popover);
-  border-radius: var(--notion-radius-lg);
+  background: var(--figma-bg);
+  border: 1px solid var(--figma-border);
+  box-shadow: var(--figma-shadow-popover);
+  border-radius: var(--figma-radius-lg);
   padding: 6px;
   display: flex;
   gap: 4px;
@@ -410,35 +382,35 @@ h3 {
   justify-content: center;
   border: none;
   background: transparent;
-  border-radius: var(--notion-radius);
+  border-radius: var(--figma-radius);
   cursor: pointer;
-  color: var(--notion-text);
+  color: var(--figma-text);
   font-size: 0.85rem;
 }
 .toolbar-btn:hover {
-  background-color: var(--notion-hover);
+  background-color: var(--figma-hover);
 }
 
 .toolbar-divider {
   width: 1px;
   height: 16px;
-  background: var(--notion-border);
+  background: var(--figma-border);
   margin: 0 4px;
 }
 
-/* Landing Page (Public Notion Page aesthetics) */
-.public-notion-container {
+/* Landing Page (Public Figma Page aesthetics) */
+.public-figma-container {
   max-width: 800px;
   margin: 60px auto;
   padding: 0 24px;
 }
 
-.notion-card {
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius-lg);
+.figma-card {
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius-lg);
   padding: 20px;
-  background: var(--notion-sidebar-bg); /* Elevated White background */
-  box-shadow: var(--notion-shadow); /* Whisper shadow */
+  background: var(--figma-sidebar-bg); /* Elevated White background */
+  box-shadow: var(--figma-shadow); /* Whisper shadow */
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   margin-bottom: 16px;
   cursor: pointer;
@@ -446,16 +418,16 @@ h3 {
   color: inherit;
   display: block;
 }
-.notion-card:hover {
+.figma-card:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
   border-color: rgba(0, 0, 0, 0.15);
 }
 
-.notion-badge {
+.figma-badge {
   font-size: 0.75rem;
   font-weight: 600;
   padding: 2px 6px;
-  border-radius: var(--notion-radius);
+  border-radius: var(--figma-radius);
   display: inline-block;
   margin-right: 6px;
 }
@@ -463,7 +435,7 @@ h3 {
 /* Resenha Diária / Feed items */
 .resenha-date {
   font-size: 0.85rem;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -474,15 +446,15 @@ h3 {
 }
 .resenha-summary {
   font-size: 0.95rem;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
   line-height: 1.5;
 }
 
-/* Notion-like Comment Pane (Right Sidebar) */
+/* Figma-like Comment Pane (Right Sidebar) */
 .comment-sidebar {
   width: 280px;
-  border-left: 1px solid var(--notion-border);
-  background: var(--notion-bg);
+  border-left: 1px solid var(--figma-border);
+  background: var(--figma-bg);
   padding: 16px;
   overflow-y: auto;
   display: flex;
@@ -492,9 +464,9 @@ h3 {
 
 .comment-card {
   padding: 12px;
-  background: var(--notion-sidebar-bg);
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius-lg);
+  background: var(--figma-sidebar-bg);
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius-lg);
   font-size: 0.85rem;
 }
 .comment-card-header {
@@ -502,10 +474,10 @@ h3 {
   margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
-  color: var(--notion-text);
+  color: var(--figma-text);
 }
 .comment-card-body {
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
 }
 
 .comment-input-area {
@@ -518,8 +490,8 @@ h3 {
   width: 100%;
   min-height: 60px;
   padding: 8px;
-  border-radius: var(--notion-radius);
-  border: 1px solid var(--notion-border);
+  border-radius: var(--figma-radius);
+  border: 1px solid var(--figma-border);
   outline: none;
   font-family: inherit;
   font-size: 0.85rem;
@@ -542,7 +514,7 @@ h3 {
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.notion-block-container:hover .block-actions {
+.figma-block-container:hover .block-actions {
   opacity: 1;
 }
 
@@ -552,9 +524,9 @@ h3 {
 
 /* Rich Text Editor Styles (TipTap) */
 .rich-editor-container {
-  background-color: var(--notion-bg);
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius-lg);
+  background-color: var(--figma-bg);
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius-lg);
   box-shadow: rgba(15, 15, 15, 0.05) 0px 2px 4px;
   overflow: hidden;
   display: flex;
@@ -565,8 +537,8 @@ h3 {
   display: flex;
   align-items: center;
   padding: 6px 8px;
-  border-bottom: 1px solid var(--notion-border);
-  background-color: var(--notion-sidebar-bg);
+  border-bottom: 1px solid var(--figma-border);
+  background-color: var(--figma-sidebar-bg);
   gap: 2px;
 }
 
@@ -592,11 +564,11 @@ h3 {
 }
 
 .rich-editor-content .ProseMirror blockquote {
-  border-left: 3px solid var(--notion-border);
+  border-left: 3px solid var(--figma-border);
   padding-left: 1rem;
   margin-left: 0;
   margin-right: 0;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
 }
 
 .rich-editor-footer {
@@ -604,8 +576,8 @@ h3 {
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  border-top: 1px solid var(--notion-border);
-  background-color: var(--notion-sidebar-bg);
+  border-top: 1px solid var(--figma-border);
+  background-color: var(--figma-sidebar-bg);
 }
 
 .legal-toolbar {
@@ -615,8 +587,8 @@ h3 {
 
 .legal-btn {
   background: white;
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius);
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
@@ -643,7 +615,7 @@ h3 {
 /* Mention / Smart Chip Styles */
 .mention-chip {
   background-color: rgba(35, 131, 226, 0.1);
-  color: var(--notion-accent);
+  color: var(--figma-accent);
   padding: 0px 4px;
   border-radius: 4px;
   font-weight: 600;
@@ -658,10 +630,10 @@ h3 {
 
 /* Tippy Suggestion Dropdown */
 .mention-dropdown {
-  background-color: var(--notion-bg);
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius-lg);
-  box-shadow: var(--notion-shadow-popover);
+  background-color: var(--figma-bg);
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius-lg);
+  box-shadow: var(--figma-shadow-popover);
   padding: 4px;
   display: flex;
   flex-direction: column;
@@ -676,21 +648,21 @@ h3 {
   border: none;
   background: transparent;
   text-align: left;
-  border-radius: var(--notion-radius);
+  border-radius: var(--figma-radius);
   font-size: 0.85rem;
-  color: var(--notion-text);
+  color: var(--figma-text);
   cursor: pointer;
 }
 
 .mention-item:hover,
 .mention-item.is-selected {
-  background-color: var(--notion-hover);
+  background-color: var(--figma-hover);
 }
 
 .rich-editor-display {
-  font-family: var(--notion-font-sans);
+  font-family: var(--figma-font-sans);
   font-size: 0.85rem;
-  color: var(--notion-text);
+  color: var(--figma-text);
   line-height: 1.5;
 }
 
@@ -716,8 +688,8 @@ h3 {
 
 .law-reader-right-pane {
   width: 420px;
-  border-left: 1px solid var(--notion-border);
-  background-color: var(--notion-sidebar-bg);
+  border-left: 1px solid var(--figma-border);
+  background-color: var(--figma-sidebar-bg);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -739,7 +711,7 @@ h3 {
   .law-reader-right-pane {
     width: 100%;
     border-left: none;
-    border-top: 1px solid var(--notion-border);
+    border-top: 1px solid var(--figma-border);
     height: auto;
   }
 }
@@ -758,7 +730,7 @@ h3 {
   margin-bottom: 20px;
   padding: 8px 12px;
   background-color: rgba(108, 92, 231, 0.05);
-  border-radius: var(--notion-radius-lg);
+  border-radius: var(--figma-radius-lg);
   border: 1px solid rgba(108, 92, 231, 0.15);
 }
 
@@ -807,14 +779,14 @@ h3 {
   align-items: center;
   margin-top: auto;
   padding-top: 32px;
-  border-top: 1px solid var(--notion-border);
+  border-top: 1px solid var(--figma-border);
 }
 
 .nav-btn-purple {
   background-color: #6c5ce7;
   color: white;
   border: none;
-  border-radius: var(--notion-radius);
+  border-radius: var(--figma-radius);
   padding: 8px 16px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -830,8 +802,8 @@ h3 {
 }
 
 .nav-btn-purple:disabled {
-  background-color: var(--notion-hover);
-  color: var(--notion-text-secondary);
+  background-color: var(--figma-hover);
+  color: var(--figma-text-secondary);
   cursor: not-allowed;
 }
 
@@ -845,24 +817,24 @@ h3 {
 }
 
 .badge-status-read {
-  background-color: var(--notion-hl-green);
+  background-color: var(--figma-hl-green);
   color: #1e824c;
 }
 
 .badge-status-review {
-  background-color: var(--notion-hl-red);
+  background-color: var(--figma-hl-red);
   color: #c0392b;
 }
 
 .badge-status-metric {
-  background-color: var(--notion-hl-orange);
+  background-color: var(--figma-hl-orange);
   color: #d35400;
 }
 
 /* Side Note Editor Pane styles */
 .sidebar-notes-header {
   padding: 16px;
-  border-bottom: 1px solid var(--notion-border);
+  border-bottom: 1px solid var(--figma-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -878,8 +850,8 @@ h3 {
 
 .sidebar-notes-footer {
   padding: 16px;
-  border-top: 1px solid var(--notion-border);
-  background-color: var(--notion-bg);
+  border-top: 1px solid var(--figma-border);
+  background-color: var(--figma-bg);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -888,7 +860,7 @@ h3 {
 .btn-sidebar-status {
   width: 100%;
   padding: 10px;
-  border-radius: var(--notion-radius-lg);
+  border-radius: var(--figma-radius-lg);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -931,10 +903,10 @@ h3 {
 
 .article-select {
   padding: 6px 12px;
-  border-radius: var(--notion-radius);
-  border: 1px solid var(--notion-border);
-  background-color: var(--notion-bg);
-  color: var(--notion-text);
+  border-radius: var(--figma-radius);
+  border: 1px solid var(--figma-border);
+  background-color: var(--figma-bg);
+  color: var(--figma-text);
   font-size: 0.85rem;
   outline: none;
   max-width: 240px;
@@ -949,7 +921,7 @@ h3 {
   opacity: 0.7;
 }
 
-.notion-block-container:hover .block-hover-actions {
+.figma-block-container:hover .block-hover-actions {
   display: flex;
 }
 
@@ -958,8 +930,8 @@ h3 {
   border: none;
   cursor: pointer;
   padding: 4px;
-  color: var(--notion-text-secondary);
-  border-radius: var(--notion-radius);
+  color: var(--figma-text-secondary);
+  border-radius: var(--figma-radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -967,18 +939,18 @@ h3 {
 }
 
 .hover-action-btn:hover {
-  background-color: var(--notion-hover);
-  color: var(--notion-text);
+  background-color: var(--figma-hover);
+  color: var(--figma-text);
   opacity: 1;
 }
 
 /* Inline Note Card Geist Style */
 .inline-note-card {
   padding: 12px 16px;
-  background-color: var(--notion-sidebar-bg); /* Elevated White background */
-  border: 1px solid var(--notion-border);
-  border-radius: var(--notion-radius);
-  box-shadow: var(--notion-shadow);
+  background-color: var(--figma-sidebar-bg); /* Elevated White background */
+  border: 1px solid var(--figma-border);
+  border-radius: var(--figma-radius);
+  box-shadow: var(--figma-shadow);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -989,12 +961,12 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--notion-font-mono);
+  font-family: var(--figma-font-mono);
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
   letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--notion-border);
+  border-bottom: 1px solid var(--figma-border);
   padding-bottom: 4px;
 }
 
@@ -1010,13 +982,13 @@ h3 {
   padding: 2px 4px;
   font-size: 0.75rem;
   border-radius: 3px;
-  color: var(--notion-text-secondary);
+  color: var(--figma-text-secondary);
   transition: background-color 0.15s, color 0.15s;
 }
 
 .note-action-btn:hover {
-  background-color: var(--notion-hover);
-  color: var(--notion-text);
+  background-color: var(--figma-hover);
+  color: var(--figma-text);
 }
 
 

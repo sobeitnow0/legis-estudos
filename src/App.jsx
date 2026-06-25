@@ -98,7 +98,7 @@ function AppContent() {
       {sidebarCollapsed && (
         <button
           onClick={() => setSidebarCollapsed(false)}
-          className="notion-btn"
+          className="figma-btn"
           style={{
             position: "fixed",
             top: "8px",
@@ -107,7 +107,7 @@ function AppContent() {
             width: "28px",
             height: "28px",
             padding: 0,
-            borderRadius: "var(--notion-radius)",
+            borderRadius: "var(--figma-radius)",
           }}
           title="Abrir barra lateral (Ctrl+\)"
           id="btn-expand-sidebar"
@@ -117,13 +117,13 @@ function AppContent() {
       )}
 
       {/* Main workspace */}
-      <div className="notion-main">
+      <div className="figma-main">
         {/* Navbar */}
-        <div className="notion-navbar">
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.85rem", color: "var(--notion-text-secondary)" }}>
+        <div className="figma-navbar">
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.85rem", color: "var(--figma-text-secondary)" }}>
             <span>Workspace</span>
             <span>/</span>
-            <span style={{ color: "var(--notion-text)", fontWeight: 500 }}>
+            <span style={{ color: "var(--figma-text)", fontWeight: 500 }}>
               {location.pathname === "/" && "✨ Bem-vindo(a)"}
               {location.pathname === "/resenha" && "📰 Resenha Diária"}
               {location.pathname === "/importar" && "📥 Importar do Planalto"}
@@ -144,7 +144,7 @@ function AppContent() {
         </div>
 
         {/* Content routing */}
-        <div className="notion-content-wrapper" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <div className="figma-content-wrapper" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/resenha" element={<ResenhaDiaria />} />

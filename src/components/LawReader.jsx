@@ -98,7 +98,7 @@ export default function LawReader() {
 
   if (!law || !law.blocks || law.blocks.length === 0) {
     return (
-      <div style={{ padding: "40px", textAlign: "center", color: "var(--notion-text-secondary)" }}>
+      <div style={{ padding: "40px", textAlign: "center", color: "var(--figma-text-secondary)" }}>
         Carregando legislação...
       </div>
     );
@@ -254,13 +254,13 @@ export default function LawReader() {
   };
 
   return (
-    <div style={{ flex: 1, backgroundColor: "var(--notion-bg)", display: "flex", flexDirection: "column" }}>
-      <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "120px", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+    <div style={{ flex: 1, backgroundColor: "var(--figma-bg)", display: "flex", flexDirection: "column" }}>
+      <div className="figma-page-frame animate-fade-in" style={{ paddingBottom: "120px", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
         
         {/* Navigation Dropdown & Header metadata */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "28px" }}>
           <div className="article-select-container">
-            <BookOpen size={15} style={{ color: "var(--notion-accent)" }} />
+            <BookOpen size={15} style={{ color: "var(--figma-accent)" }} />
             <select
               onChange={(e) => handleJumpToArticle(e.target.value)}
               className="article-select"
@@ -278,7 +278,7 @@ export default function LawReader() {
             </select>
           </div>
           
-          <div style={{ fontSize: "0.85rem", color: "var(--notion-text-secondary)", fontWeight: 500 }}>
+          <div style={{ fontSize: "0.85rem", color: "var(--figma-text-secondary)", fontWeight: 500 }}>
             {law.title} — {law.type}
           </div>
         </div>
@@ -305,10 +305,10 @@ export default function LawReader() {
                   key={block.id} 
                   id={block.id} 
                   onClick={() => setActiveNoteBlockId(block.id)}
-                  className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
-                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
+                  className={`figma-block-container ${isActive ? "active-note-block" : ""}`}
+                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--figma-radius)" }}
                 >
-                  <h2 id={`h2-${block.id}`} style={{ margin: "32px 0 16px 0", fontSize: "1.25rem", fontWeight: 600, color: "var(--notion-text)", textTransform: "uppercase", letterSpacing: "0.05em", border: "none", padding: 0 }}>
+                  <h2 id={`h2-${block.id}`} style={{ margin: "48px 0 24px 0", fontSize: "26px", fontWeight: 540, lineHeight: 1.35, letterSpacing: "-0.26px", color: "var(--figma-text)", border: "none", padding: 0 }}>
                     {block.content}
                   </h2>
                 </div>
@@ -321,10 +321,10 @@ export default function LawReader() {
                   key={block.id} 
                   id={block.id} 
                   onClick={() => setActiveNoteBlockId(block.id)}
-                  className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
-                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
+                  className={`figma-block-container ${isActive ? "active-note-block" : ""}`}
+                  style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--figma-radius)" }}
                 >
-                  <h3 id={`h3-${block.id}`} style={{ margin: "24px 0 12px 0", fontSize: "1.1rem", fontWeight: 500, color: "var(--notion-text-secondary)" }}>
+                  <h3 id={`h3-${block.id}`} style={{ margin: "32px 0 16px 0", fontSize: "24px", fontWeight: 700, lineHeight: 1.45, letterSpacing: "0", color: "var(--figma-text)" }}>
                     {block.content}
                   </h3>
                 </div>
@@ -337,32 +337,30 @@ export default function LawReader() {
                 id={block.id}
                 onClick={() => setActiveNoteBlockId(block.id)}
                 onMouseUp={(e) => handleTextSelection(e, block.id)}
-                className={`notion-block-container ${isActive ? "active-note-block" : ""} ${isArticle ? "vercel-article-card" : ""}`}
+                className={`figma-block-container ${isActive ? "active-note-block" : ""} ${isArticle ? "figma-article-block" : ""}`}
                 style={{
-                  padding: isArticle ? "20px" : "8px 12px",
-                  paddingLeft: isPreambulo ? "16px" : isInciso || isLegalParagraph ? "36px" : isAlinea ? "56px" : isArticle ? "20px" : "12px",
-                  borderRadius: isArticle ? "12px" : "var(--notion-radius)",
-                  border: isArticle ? "1px solid var(--notion-border)" : "none",
-                  borderLeft: isPreambulo ? "3px solid var(--notion-accent)" : isArticle ? "1px solid var(--notion-border)" : "none",
-                  backgroundColor: isArticle ? "var(--notion-sidebar-bg)" : "transparent",
-                  boxShadow: isArticle ? "0px 4px 12px rgba(0,0,0,0.15)" : "none",
+                  padding: isArticle ? "24px" : "8px 12px",
+                  paddingLeft: isPreambulo ? "16px" : isInciso || isLegalParagraph ? "36px" : isAlinea ? "56px" : isArticle ? "24px" : "12px",
+                  borderRadius: isArticle ? "var(--figma-radius-lg)" : "var(--figma-radius)",
+                  border: "none",
+                  backgroundColor: isArticle ? "var(--figma-surface-soft)" : "transparent",
+                  boxShadow: "none",
                   cursor: "pointer",
                   transition: "all 0.15s",
                   marginBottom: isArticle ? "24px" : "4px"
                 }}
               >
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
                   {isArticle && (
                     <span
                       style={{
-                        background: "linear-gradient(135deg, #8b5cf6, #7c3aed)",
-                        color: "white",
-                        padding: "4px 10px",
-                        borderRadius: "12px",
-                        fontSize: "0.8rem",
-                        fontWeight: 700,
-                        whiteSpace: "nowrap",
-                        boxShadow: "0 2px 4px rgba(139, 92, 246, 0.3)"
+                        backgroundColor: "var(--figma-primary)",
+                        color: "var(--figma-on-primary)",
+                        padding: "10px 20px",
+                        borderRadius: "50px",
+                        fontSize: "20px",
+                        fontWeight: 480,
+                        whiteSpace: "nowrap"
                       }}
                     >
                       Art. {block.content.match(/^Art\.\s*(\d+[^\s]*)/i)?.[1] || "Ativo"}
@@ -370,14 +368,14 @@ export default function LawReader() {
                   )}
                   
                   <p
-                    className={`notion-block notion-block-${block.type} ${block.revoked ? "notion-block-revoked" : ""}`}
+                    className={`figma-block figma-block-${block.type} ${block.revoked ? "figma-block-revoked" : ""}`}
                     style={{ 
                       flex: 1, 
                       margin: 0, 
                       fontSize: isArticle ? "1.05rem" : "1rem", 
                       fontWeight: isArticle ? 500 : 400,
                       lineHeight: 1.6,
-                      color: isPreambulo ? "var(--notion-text-secondary)" : "var(--notion-text)"
+                      color: isPreambulo ? "var(--figma-text-secondary)" : "var(--figma-text)"
                     }}
                   >
                     {isArticle ? (

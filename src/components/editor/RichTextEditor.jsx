@@ -109,12 +109,12 @@ export default function RichTextEditor({ content, onChange, onCancel, onSave }) 
         </div>
         <div className="save-actions">
           {onCancel && (
-            <button onClick={onCancel} className="notion-btn btn-cancel">
+            <button onClick={onCancel} className="figma-btn btn-cancel">
               Cancelar
             </button>
           )}
           {onSave && (
-            <button onClick={onSave} className="notion-btn btn-save notion-btn-primary">
+            <button onClick={onSave} className="figma-btn btn-save figma-btn-primary">
               Salvar Nota
             </button>
           )}

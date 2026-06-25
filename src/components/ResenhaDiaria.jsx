@@ -49,13 +49,13 @@ export default function ResenhaDiaria() {
   };
 
   return (
-    <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "80px" }}>
+    <div className="figma-page-frame animate-fade-in" style={{ paddingBottom: "80px" }}>
       {/* Header emoji and Title */}
-      <div className="notion-page-header-emoji">📰</div>
+      <div className="figma-page-header-emoji">📰</div>
       <h1 style={{ fontSize: "2.2rem", fontWeight: 700, marginBottom: "8px" }}>
         Resenha Diária do Planalto
       </h1>
-      <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
+      <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
         Monitoramento diário de emendas constitucionais, leis ordinárias, decretos regulamentares e medidas provisórias.
       </p>
 
@@ -66,16 +66,16 @@ export default function ResenhaDiaria() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "12px 16px",
-          backgroundColor: "var(--notion-sidebar-bg)",
-          borderRadius: "var(--notion-radius-lg)",
-          border: "1px solid var(--notion-border)",
+          backgroundColor: "var(--figma-sidebar-bg)",
+          borderRadius: "var(--figma-radius-lg)",
+          border: "1px solid var(--figma-border)",
           marginBottom: "24px",
           gap: "12px",
           flexWrap: "wrap"
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <Bell size={18} style={{ color: "var(--notion-accent)" }} />
+          <Bell size={18} style={{ color: "var(--figma-accent)" }} />
           <span style={{ fontSize: "0.85rem", fontWeight: 500 }}>
             {syncMessage || "Última varredura no Planalto: Hoje às 12:15"}
           </span>
@@ -83,7 +83,7 @@ export default function ResenhaDiaria() {
         <button
           onClick={handleSync}
           disabled={syncing}
-          className="notion-btn"
+          className="figma-btn"
           style={{ fontSize: "0.8rem", padding: "6px 12px" }}
         >
           <RefreshCcw size={12} className={syncing ? "animate-spin" : ""} />
@@ -91,11 +91,11 @@ export default function ResenhaDiaria() {
         </button>
       </div>
 
-      {/* Notion tab filters */}
+      {/* Figma tab filters */}
       <div
         style={{
           display: "flex",
-          borderBottom: "1px solid var(--notion-border)",
+          borderBottom: "1px solid var(--figma-border)",
           gap: "16px",
           marginBottom: "24px",
           paddingBottom: "8px"
@@ -108,8 +108,8 @@ export default function ResenhaDiaria() {
             background: "transparent",
             fontSize: "0.9rem",
             fontWeight: filterType === "all" ? 600 : 400,
-            color: filterType === "all" ? "var(--notion-text)" : "var(--notion-text-secondary)",
-            borderBottom: filterType === "all" ? "2px solid var(--notion-text)" : "none",
+            color: filterType === "all" ? "var(--figma-text)" : "var(--figma-text-secondary)",
+            borderBottom: filterType === "all" ? "2px solid var(--figma-text)" : "none",
             padding: "8px 12px",
             cursor: "pointer",
           }}
@@ -123,8 +123,8 @@ export default function ResenhaDiaria() {
             background: "transparent",
             fontSize: "0.9rem",
             fontWeight: filterType === "lei" ? 600 : 400,
-            color: filterType === "lei" ? "var(--notion-text)" : "var(--notion-text-secondary)",
-            borderBottom: filterType === "lei" ? "2px solid var(--notion-text)" : "none",
+            color: filterType === "lei" ? "var(--figma-text)" : "var(--figma-text-secondary)",
+            borderBottom: filterType === "lei" ? "2px solid var(--figma-text)" : "none",
             padding: "8px 12px",
             cursor: "pointer",
           }}
@@ -138,8 +138,8 @@ export default function ResenhaDiaria() {
             background: "transparent",
             fontSize: "0.9rem",
             fontWeight: filterType === "decreto" ? 600 : 400,
-            color: filterType === "decreto" ? "var(--notion-text)" : "var(--notion-text-secondary)",
-            borderBottom: filterType === "decreto" ? "2px solid var(--notion-text)" : "none",
+            color: filterType === "decreto" ? "var(--figma-text)" : "var(--figma-text-secondary)",
+            borderBottom: filterType === "decreto" ? "2px solid var(--figma-text)" : "none",
             padding: "8px 12px",
             cursor: "pointer",
           }}
@@ -153,8 +153,8 @@ export default function ResenhaDiaria() {
             background: "transparent",
             fontSize: "0.9rem",
             fontWeight: filterType === "mp" ? 600 : 400,
-            color: filterType === "mp" ? "var(--notion-text)" : "var(--notion-text-secondary)",
-            borderBottom: filterType === "mp" ? "2px solid var(--notion-text)" : "none",
+            color: filterType === "mp" ? "var(--figma-text)" : "var(--figma-text-secondary)",
+            borderBottom: filterType === "mp" ? "2px solid var(--figma-text)" : "none",
             padding: "8px 12px",
             cursor: "pointer",
           }}
@@ -171,7 +171,7 @@ export default function ResenhaDiaria() {
           return (
             <div
               key={up.id}
-              className="notion-card animate-fade-in"
+              className="figma-card animate-fade-in"
               style={{ 
                 marginBottom: 0, 
                 cursor: "default",
@@ -190,8 +190,8 @@ export default function ResenhaDiaria() {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <Calendar size={14} style={{ color: "var(--notion-text-secondary)" }} />
-                  <strong style={{ fontSize: "1rem", color: "var(--notion-text)", textDecoration: isRead ? "line-through" : "none" }}>{up.title}</strong>
+                  <Calendar size={14} style={{ color: "var(--figma-text-secondary)" }} />
+                  <strong style={{ fontSize: "1rem", color: "var(--figma-text)", textDecoration: isRead ? "line-through" : "none" }}>{up.title}</strong>
                 </div>
                 <span
                   style={{
@@ -199,31 +199,31 @@ export default function ResenhaDiaria() {
                     fontWeight: 600,
                     padding: "2px 6px",
                     borderRadius: "3px",
-                    backgroundColor: tagColors[up.color]?.bg || "var(--notion-hover)",
-                    color: tagColors[up.color]?.text || "var(--notion-text-secondary)"
+                    backgroundColor: tagColors[up.color]?.bg || "var(--figma-hover)",
+                    color: tagColors[up.color]?.text || "var(--figma-text-secondary)"
                   }}
                 >
                   {up.tag}
                 </span>
               </div>
 
-              <p style={{ fontSize: "0.85rem", color: "var(--notion-text)", marginBottom: "12px", lineHeight: "1.5" }}>
+              <p style={{ fontSize: "0.85rem", color: "var(--figma-text)", marginBottom: "12px", lineHeight: "1.5" }}>
                 <strong>Ementa:</strong> {up.summary}
               </p>
 
               <div
                 style={{
-                  backgroundColor: "var(--notion-sidebar-bg)",
-                  border: "1px solid var(--notion-border)",
-                  borderRadius: "var(--notion-radius)",
+                  backgroundColor: "var(--figma-sidebar-bg)",
+                  border: "1px solid var(--figma-border)",
+                  borderRadius: "var(--figma-radius)",
                   padding: "10px",
                   fontSize: "0.8rem",
-                  color: "var(--notion-text-secondary)",
+                  color: "var(--figma-text-secondary)",
                   marginBottom: "16px",
                   lineHeight: "1.5"
                 }}
               >
-                <strong style={{ color: "var(--notion-text)", display: "block", marginBottom: "4px" }}>Análise do LegisEstudos:</strong>
+                <strong style={{ color: "var(--figma-text)", display: "block", marginBottom: "4px" }}>Análise do LegisEstudos:</strong>
                 {up.analysis}
               </div>
 
@@ -233,7 +233,7 @@ export default function ResenhaDiaria() {
                     href={up.planaltoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="notion-btn"
+                    className="figma-btn"
                     style={{ fontSize: "0.75rem", padding: "4px 8px" }}
                   >
                     <span>Ver no Planalto</span>
@@ -250,7 +250,7 @@ export default function ResenhaDiaria() {
                     background: "transparent",
                     border: "none",
                     cursor: "pointer",
-                    color: isRead ? "#2ecc71" : "var(--notion-text-secondary)",
+                    color: isRead ? "#2ecc71" : "var(--figma-text-secondary)",
                     fontSize: "0.8rem",
                     fontWeight: 500
                   }}

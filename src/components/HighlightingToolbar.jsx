@@ -23,10 +23,10 @@ export function HighlightingToolbar({ position, onApplyHighlight, onApplyFormat,
         alignItems: "center",
         gap: "4px",
         padding: "6px",
-        backgroundColor: "var(--notion-bg)",
-        border: "1px solid var(--notion-border)",
-        borderRadius: "var(--notion-radius-lg)",
-        boxShadow: "var(--notion-shadow-popover)",
+        backgroundColor: "var(--figma-bg)",
+        border: "1px solid var(--figma-border)",
+        borderRadius: "var(--figma-radius-lg)",
+        boxShadow: "var(--figma-shadow-popover)",
         zIndex: 1000,
       }}
       onMouseDown={(e) => {
@@ -80,7 +80,7 @@ export function HighlightingToolbar({ position, onApplyHighlight, onApplyFormat,
         onClick={() => onApplyHighlight("gray")}
         className="toolbar-btn"
         title="Remover marcações do trecho"
-        style={{ color: "var(--notion-text-secondary)" }}
+        style={{ color: "var(--figma-text-secondary)" }}
       >
         <Trash2 size={14} />
       </button>

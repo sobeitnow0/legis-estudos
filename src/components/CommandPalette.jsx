@@ -86,10 +86,10 @@ export default function CommandPalette({ isOpen, onClose }) {
         style={{
           width: "100%",
           maxWidth: "540px",
-          backgroundColor: "var(--notion-bg)",
-          borderRadius: "var(--notion-radius-lg)",
-          boxShadow: "var(--notion-shadow-popover)",
-          border: "1px solid var(--notion-border)",
+          backgroundColor: "var(--figma-bg)",
+          borderRadius: "var(--figma-radius-lg)",
+          boxShadow: "var(--figma-shadow-popover)",
+          border: "1px solid var(--figma-border)",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
@@ -103,11 +103,11 @@ export default function CommandPalette({ isOpen, onClose }) {
             display: "flex",
             alignItems: "center",
             padding: "12px 16px",
-            borderBottom: "1px solid var(--notion-border)",
+            borderBottom: "1px solid var(--figma-border)",
             gap: "12px",
           }}
         >
-          <Search size={18} style={{ color: "var(--notion-text-secondary)" }} />
+          <Search size={18} style={{ color: "var(--figma-text-secondary)" }} />
           <input
             ref={inputRef}
             type="text"
@@ -120,7 +120,7 @@ export default function CommandPalette({ isOpen, onClose }) {
               outline: "none",
               background: "transparent",
               fontSize: "1rem",
-              color: "var(--notion-text)",
+              color: "var(--figma-text)",
             }}
           />
           <button
@@ -129,7 +129,7 @@ export default function CommandPalette({ isOpen, onClose }) {
               border: "none",
               background: "transparent",
               cursor: "pointer",
-              color: "var(--notion-text-secondary)",
+              color: "var(--figma-text-secondary)",
               padding: "4px",
               display: "flex",
               alignItems: "center",
@@ -151,31 +151,31 @@ export default function CommandPalette({ isOpen, onClose }) {
                   alignItems: "center",
                   gap: "12px",
                   padding: "8px 12px",
-                  borderRadius: "var(--notion-radius)",
+                  borderRadius: "var(--figma-radius)",
                   cursor: "pointer",
                   transition: "background-color 0.1s",
                 }}
                 className="sidebar-item"
               >
-                <div style={{ color: "var(--notion-text-secondary)", display: "flex" }}>
+                <div style={{ color: "var(--figma-text-secondary)", display: "flex" }}>
                   {item.type === "lei" && <BookOpen size={16} />}
                   {item.type === "artigo" && <FileText size={16} />}
                   {item.type === "resenha" && <Calendar size={16} />}
                   {item.type === "ferramenta" && <Search size={16} />}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "0.9rem", fontWeight: 500, color: "var(--notion-text)" }}>
+                  <div style={{ fontSize: "0.9rem", fontWeight: 500, color: "var(--figma-text)" }}>
                     {item.title}
                   </div>
-                  <div style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>
+                  <div style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>
                     {item.subtitle}
                   </div>
                 </div>
                 <span
                   style={{
                     fontSize: "0.7rem",
-                    color: "var(--notion-text-secondary)",
-                    backgroundColor: "var(--notion-hover)",
+                    color: "var(--figma-text-secondary)",
+                    backgroundColor: "var(--figma-hover)",
                     padding: "2px 6px",
                     borderRadius: "3px",
                     textTransform: "uppercase",
@@ -191,7 +191,7 @@ export default function CommandPalette({ isOpen, onClose }) {
               style={{
                 padding: "24px",
                 textAlign: "center",
-                color: "var(--notion-text-secondary)",
+                color: "var(--figma-text-secondary)",
                 fontSize: "0.9rem",
               }}
             >
@@ -204,15 +204,15 @@ export default function CommandPalette({ isOpen, onClose }) {
         <div
           style={{
             padding: "8px 16px",
-            borderTop: "1px solid var(--notion-border)",
-            backgroundColor: "var(--notion-sidebar-bg)",
+            borderTop: "1px solid var(--figma-border)",
+            backgroundColor: "var(--figma-sidebar-bg)",
             fontSize: "0.75rem",
-            color: "var(--notion-text-secondary)",
+            color: "var(--figma-text-secondary)",
             display: "flex",
             justifyContent: "space-between",
           }}
         >
-          <span>Pressione <kbd style={{ background: "var(--notion-border)", padding: "1px 3px", borderRadius: "2px" }}>Esc</kbd> para fechar</span>
+          <span>Pressione <kbd style={{ background: "var(--figma-border)", padding: "1px 3px", borderRadius: "2px" }}>Esc</kbd> para fechar</span>
           <span>Selecione para navegar</span>
         </div>
       </div>

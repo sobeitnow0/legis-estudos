@@ -35,47 +35,47 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="notion-page-frame animate-fade-in" style={{ paddingBottom: "80px" }}>
+    <div className="figma-page-frame animate-fade-in" style={{ paddingBottom: "80px" }}>
       {/* Header emoji and Title */}
-      <div className="notion-page-header-emoji">✨</div>
+      <div className="figma-page-header-emoji">✨</div>
       <h1 style={{ fontSize: "2.2rem", fontWeight: 700, marginBottom: "8px" }}>
         Bem-vindo(a) ao seu LegisEstudos
       </h1>
-      <p style={{ color: "var(--notion-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
+      <p style={{ color: "var(--figma-text-secondary)", fontSize: "0.95rem", marginBottom: "32px" }}>
         Seu Vade Mecum estruturado em blocos interativos. Seus grifos e anotações salvos de forma permanente.
       </p>
 
-      {/* Notion Callout banner */}
-      <div className="notion-callout">
-        <div className="notion-callout-icon">🚀</div>
-        <div className="notion-callout-content" style={{ fontSize: "0.9rem" }}>
-          <strong>Dica de Produtividade:</strong> Use o atalho <kbd style={{ background: "var(--notion-border)", padding: "1px 4px", borderRadius: "3px" }}>Ctrl + K</kbd> em qualquer tela para abrir a barra de pesquisa rápida de leis e artigos.
+      {/* Figma Callout banner */}
+      <div className="figma-callout">
+        <div className="figma-callout-icon">🚀</div>
+        <div className="figma-callout-content" style={{ fontSize: "0.9rem" }}>
+          <strong>Dica de Produtividade:</strong> Use o atalho <kbd style={{ background: "var(--figma-border)", padding: "1px 4px", borderRadius: "3px" }}>Ctrl + K</kbd> em qualquer tela para abrir a barra de pesquisa rápida de leis e artigos.
         </div>
       </div>
 
       {/* Grid: Shortcuts */}
       <h2 style={{ fontSize: "1.3rem", marginTop: "40px", marginBottom: "16px" }}>Acesso Rápido</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
-        <Link to="/lei/cf88" className="notion-card" style={{ textDecoration: "none", marginBottom: 0 }}>
+        <Link to="/lei/cf88" className="figma-card" style={{ textDecoration: "none", marginBottom: 0 }}>
           <div style={{ fontSize: "1.5rem", marginBottom: "8px" }}>⚖️</div>
           <strong style={{ display: "block", fontSize: "0.95rem", marginBottom: "4px" }}>Constituição Federal</strong>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>
             CF/88 promulgada, Artigos 1º a 5º.
           </span>
         </Link>
 
-        <Link to="/lei/cp40" className="notion-card" style={{ textDecoration: "none", marginBottom: 0 }}>
+        <Link to="/lei/cp40" className="figma-card" style={{ textDecoration: "none", marginBottom: 0 }}>
           <div style={{ fontSize: "1.5rem", marginBottom: "8px" }}>📕</div>
           <strong style={{ display: "block", fontSize: "0.95rem", marginBottom: "4px" }}>Código Penal</strong>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>
             Decreto-Lei 2.848/1940 estruturado.
           </span>
         </Link>
 
-        <Link to="/planos" className="notion-card" style={{ textDecoration: "none", marginBottom: 0 }}>
+        <Link to="/planos" className="figma-card" style={{ textDecoration: "none", marginBottom: 0 }}>
           <div style={{ fontSize: "1.5rem", marginBottom: "8px" }}>🎯</div>
           <strong style={{ display: "block", fontSize: "0.95rem", marginBottom: "4px" }}>Foco de Banca</strong>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>
             Filtre por incidência de provas (FGV, CESPE...).
           </span>
         </Link>
@@ -89,7 +89,7 @@ export default function Dashboard() {
           justifyContent: "space-between",
           marginTop: "50px",
           marginBottom: "16px",
-          borderBottom: "1px solid var(--notion-border)",
+          borderBottom: "1px solid var(--figma-border)",
           paddingBottom: "8px",
         }}
       >
@@ -100,7 +100,7 @@ export default function Dashboard() {
           to="/resenha"
           style={{
             fontSize: "0.8rem",
-            color: "var(--notion-accent)",
+            color: "var(--figma-accent)",
             fontWeight: 500,
             textDecoration: "none",
             display: "flex",
@@ -117,11 +117,11 @@ export default function Dashboard() {
         {recentActs.map((act) => (
           <div
             key={act.id}
-            className="notion-card"
+            className="figma-card"
             style={{ marginBottom: 0, cursor: "default", padding: "16px" }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "8px" }}>
-              <strong style={{ fontSize: "0.95rem", color: "var(--notion-text)" }}>{act.title}</strong>
+              <strong style={{ fontSize: "0.95rem", color: "var(--figma-text)" }}>{act.title}</strong>
               <div style={{ display: "flex", gap: "6px" }}>
                 {act.tags.map((t) => (
                   <span
@@ -131,8 +131,8 @@ export default function Dashboard() {
                       fontWeight: 600,
                       padding: "2px 6px",
                       borderRadius: "3px",
-                      backgroundColor: tagColors[t.color]?.bg || "var(--notion-hover)",
-                      color: tagColors[t.color]?.text || "var(--notion-text-secondary)",
+                      backgroundColor: tagColors[t.color]?.bg || "var(--figma-hover)",
+                      color: tagColors[t.color]?.text || "var(--figma-text-secondary)",
                     }}
                   >
                     {t.name}
@@ -140,7 +140,7 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-            <p style={{ fontSize: "0.85rem", color: "var(--notion-text-secondary)", margin: "8px 0 12px 0", lineHeight: "1.5" }}>
+            <p style={{ fontSize: "0.85rem", color: "var(--figma-text-secondary)", margin: "8px 0 12px 0", lineHeight: "1.5" }}>
               {act.summary}
             </p>
             <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
@@ -150,7 +150,7 @@ export default function Dashboard() {
                 rel="noreferrer"
                 style={{
                   fontSize: "0.75rem",
-                  color: "var(--notion-accent)",
+                  color: "var(--figma-accent)",
                   textDecoration: "none",
                   fontWeight: 500,
                 }}
@@ -162,33 +162,33 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Notion Status / Statistics Widget */}
+      {/* Figma Status / Statistics Widget */}
       <h2 style={{ fontSize: "1.3rem", marginTop: "50px", marginBottom: "16px" }}>Progresso de Estudos</h2>
       <div
         style={{
           display: "flex",
           gap: "16px",
           padding: "16px",
-          borderRadius: "var(--notion-radius-lg)",
-          border: "1px solid var(--notion-border)",
-          backgroundColor: "var(--notion-sidebar-bg)",
+          borderRadius: "var(--figma-radius-lg)",
+          border: "1px solid var(--figma-border)",
+          backgroundColor: "var(--figma-sidebar-bg)",
           alignItems: "center",
           flexWrap: "wrap"
         }}
       >
         <div style={{ flex: 1, minWidth: "140px", textAlign: "center" }}>
-          <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--notion-accent)" }}>CF/88</div>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>Legislação Ativa</span>
+          <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--figma-accent)" }}>CF/88</div>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>Legislação Ativa</span>
         </div>
-        <div style={{ width: "1px", height: "40px", backgroundColor: "var(--notion-border)" }} className="hidden-mobile" />
+        <div style={{ width: "1px", height: "40px", backgroundColor: "var(--figma-border)" }} className="hidden-mobile" />
         <div style={{ flex: 1, minWidth: "140px", textAlign: "center" }}>
           <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#e28743" }}>4 grifos</div>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>Salvos Localmente</span>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>Salvos Localmente</span>
         </div>
-        <div style={{ width: "1px", height: "40px", backgroundColor: "var(--notion-border)" }} className="hidden-mobile" />
+        <div style={{ width: "1px", height: "40px", backgroundColor: "var(--figma-border)" }} className="hidden-mobile" />
         <div style={{ flex: 1, minWidth: "140px", textAlign: "center" }}>
           <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#27ae60" }}>100%</div>
-          <span style={{ fontSize: "0.75rem", color: "var(--notion-text-secondary)" }}>Sincronizado</span>
+          <span style={{ fontSize: "0.75rem", color: "var(--figma-text-secondary)" }}>Sincronizado</span>
         </div>
       </div>
     </div>

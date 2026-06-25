@@ -54,7 +54,7 @@ export default function Sidebar({
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className={`notion-sidebar ${collapsed ? "collapsed" : ""}`}>
+    <div className={`figma-sidebar ${collapsed ? "collapsed" : ""}`}>
       {/* Sidebar Header */}
       <div className="sidebar-header">
         <div className="workspace-selector">
@@ -81,7 +81,7 @@ export default function Sidebar({
             textAlign: "left",
             border: "none",
             background: "transparent",
-            color: "var(--notion-text-secondary)",
+            color: "var(--figma-text-secondary)",
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -94,10 +94,10 @@ export default function Sidebar({
           <kbd
             style={{
               fontSize: "0.75rem",
-              background: "var(--notion-border)",
+              background: "var(--figma-border)",
               padding: "2px 4px",
               borderRadius: "3px",
-              color: "var(--notion-text-secondary)",
+              color: "var(--figma-text-secondary)",
             }}
           >
             Ctrl+K
@@ -175,7 +175,7 @@ export default function Sidebar({
         style={{
           marginTop: "auto",
           padding: "12px 16px",
-          borderTop: "1px solid var(--notion-border)",
+          borderTop: "1px solid var(--figma-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -183,7 +183,7 @@ export default function Sidebar({
       >
         <button
           onClick={toggleDarkMode}
-          className="notion-btn"
+          className="figma-btn"
           style={{ width: "100%", justifyContent: "flex-start", padding: "6px" }}
           id="btn-toggle-darkmode"
         >
