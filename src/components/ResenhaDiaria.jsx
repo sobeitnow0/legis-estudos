@@ -35,9 +35,6 @@ export default function ResenhaDiaria() {
       setSyncMessage("Sistema automático ativo. Novas leis aparecerão aqui magicamente.");
       setTimeout(() => setSyncMessage(""), 4000);
     }, 1500);
-  };tSyncMessage(""), 4000);
-      }, 1500);
-    }, 1500);
   };
 
   const filteredUpdates = filterType === "all"
