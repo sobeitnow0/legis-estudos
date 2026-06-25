@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1",
+    "title": "Lei nº 15.436 de 17/06/2026",
+    "type": "lei",
+    "summary": "Institui a Política Nacional para Estudantes com Altas Habilidades ou Superdotação; cria o Cadastro Nacional correspondente; e altera leis de fomento.",
+    "analysis": "Tema de alta relevância para a matéria de Direitos Humanos e Estatuto da Criança e do Adolescente (ECA). Fique atento à criação do Cadastro Nacional.",
+    "tag": "Direitos Humanos",
+    "color": "purple",
+    "planaltoUrl": "http://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/lei/l15436.htm",
+    "date": "2026-06-17"
+  },
+  {
+    "id": "2",
+    "title": "Decreto nº 13.032 de 17/06/2026",
+    "type": "decreto",
+    "summary": "Altera o Decreto nº 11.355, de 1º de janeiro de 2023, que aprova a Estrutura Regimental do Ministério dos Povos Indígenas.",
+    "analysis": "Decreto de organização administrativa. Baixa relevância para provas gerais, mas importante para concursos da AGU e Defensorias Públicas estaduais.",
+    "tag": "Administrativo",
+    "color": "orange",
+    "planaltoUrl": "http://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/decreto/d13032.htm",
+    "date": "2026-06-17"
+  },
+  {
+    "id": "3",
+    "title": "Decreto nº 13.031 de 17/06/2026",
+    "type": "decreto",
+    "summary": "Institui o Sistema Contratos.gov.br no âmbito da administração pública federal direta, autárquica e fundacional, regulamentando a celebração eletrônica de aditivos.",
+    "analysis": "Tema quente em Direito Administrativo / Licitações e Contratos. Regula a forma eletrônica de termos aditivos. Muito provável em provas da FGV.",
+    "tag": "Administrativo",
+    "color": "orange",
+    "planaltoUrl": "http://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/decreto/d13031.htm",
+    "date": "2026-06-17"
+  },
+  {
+    "id": "4",
+    "title": "Lei nº 15.435 de 17/06/2026",
+    "type": "lei",
+    "summary": "Dispõe sobre o exercício da profissão de arteterapeuta e traz mensagens de veto parciais.",
+    "analysis": "Regulação profissional. Baixa relevância estatística para a maioria das bancas jurídicas.",
+    "tag": "Civil",
+    "color": "blue",
+    "planaltoUrl": "http://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/lei/l15435.htm",
+    "date": "2026-06-17"
+  },
+  {
+    "id": "5",
+    "title": "Medida Provisória nº 1.367 de 12/06/2026",
+    "type": "mp",
+    "summary": "Abre crédito extraordinário de R$ 337 milhões em favor do Ministério do Meio Ambiente e Mudança do Clima.",
+    "analysis": "Direito Ambiental / Direito Financeiro. Crédito extraordinário em face de eventos climáticos urgentes.",
+    "tag": "Ambiental",
+    "color": "green",
+    "planaltoUrl": "http://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/mpv/mpv1367.htm",
+    "date": "2026-06-12"
+  }
+]
