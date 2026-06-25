@@ -291,8 +291,9 @@ export default function LawReader() {
             const isH3 = block.type === "heading-3";
             const isArticle = block.type === "article";
             const isInciso = block.type === "inciso";
-            const isParagraph = block.type === "paragraph";
             const isAlinea = block.type === "alinea" || block.type === "paragraph-item";
+            const isLegalParagraph = block.type === "paragraph" && (block.content.trim().startsWith("§") || block.content.trim().toLowerCase().startsWith("parágrafo"));
+            
             const isActive = activeNoteBlockId === block.id;
             const status = blockStatuses[block.id];
             const hasNotes = !!comments[block.id];
@@ -338,15 +339,14 @@ export default function LawReader() {
                 className={`notion-block-container ${isActive ? "active-note-block" : ""} ${isArticle ? "vercel-article-card" : ""}`}
                 style={{
                   padding: isArticle ? "16px" : "8px 12px",
+                  paddingLeft: isInciso || isLegalParagraph ? "36px" : isAlinea ? "56px" : isArticle ? "16px" : "12px",
                   borderRadius: isArticle ? "var(--notion-radius-lg)" : "var(--notion-radius)",
                   border: isArticle ? "1px solid var(--notion-border)" : "none",
                   backgroundColor: isArticle ? "var(--notion-sidebar-bg)" : "transparent",
                   boxShadow: isArticle ? "var(--notion-shadow)" : "none",
                   cursor: "pointer",
                   transition: "all 0.15s",
-                  marginBottom: isArticle ? "4px" : "2px",
-                  marginLeft: isInciso || isParagraph ? "24px" : isAlinea ? "48px" : "0px",
-                  borderLeft: (isInciso || isParagraph) ? "3px solid var(--notion-border)" : isAlinea ? "3px solid var(--notion-hover)" : isArticle ? "1px solid var(--notion-border)" : "none",
+                  marginBottom: isArticle ? "8px" : "2px"
                 }}
               >
                 <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
