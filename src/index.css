@@ -1,19 +1,20 @@
 /* legis-estudos: Vercel Geist Design System */
 
 :root {
-  /* Color Palette (Vercel Geist Light Mode) */
-  --notion-bg: #fafafa; /* Canvas */
+  /* Color Palette (Vercel Geist Light Mode + Glassmorphism) */
+  --notion-bg: rgba(252, 252, 252, 0.75); /* Canvas */
   --notion-text: #171717; /* Ink */
   --notion-text-secondary: #4d4d4d; /* Body */
-  --notion-sidebar-bg: #ffffff; /* Elevated */
-  --notion-border: #ebebeb; /* Hairline */
-  --notion-hover: #f2f2f2; /* Hairline-Soft */
-  --notion-active: #eaeaea; 
-  --notion-accent: #0070f3; /* Vercel Blue */
-  --notion-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); /* Whisper shadow */
-  --notion-shadow-popover: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.1);
-  --notion-radius: 6px; /* rounded.sm */
-  --notion-radius-lg: 12px; /* rounded.md */
+  --notion-sidebar-bg: rgba(255, 255, 255, 0.65); /* Elevated */
+  --notion-border: rgba(0, 0, 0, 0.08); /* Hairline */
+  --notion-hover: rgba(0, 0, 0, 0.04); /* Hairline-Soft */
+  --notion-active: rgba(0, 0, 0, 0.06); 
+  --notion-accent: #8b5cf6; /* Vibrant Purple */
+  --notion-shadow: 0px 4px 24px rgba(0, 0, 0, 0.04); /* Whisper shadow */
+  --notion-shadow-popover: 0px 8px 32px rgba(0, 0, 0, 0.08);
+  --notion-radius: 8px; /* rounded.sm */
+  --notion-radius-lg: 16px; /* rounded.md */
+  --glass-blur: blur(24px) saturate(180%);
 
   /* Notion Highlight Colors (Geist Pastel Accents) */
   --notion-hl-yellow: #fff3a8;
@@ -47,16 +48,16 @@
 /* Dark Mode Override (Triggered by class .dark on html/body or system preference) */
 @media (prefers-color-scheme: dark) {
   :root:not(.light-theme) {
-    --notion-bg: #000000; /* pure black canvas */
+    --notion-bg: rgba(10, 10, 10, 0.7); /* pure black canvas */
     --notion-text: #ffffff; /* pure white ink */
-    --notion-text-secondary: #888888; /* body */
-    --notion-sidebar-bg: #111111; /* elevated surface */
-    --notion-border: #333333; /* hairline */
-    --notion-hover: #1f1f1f;
-    --notion-active: #2a2a2a;
-    --notion-accent: #0070f3;
-    --notion-shadow: 0px 1px 2px rgba(255, 255, 255, 0.05);
-    --notion-shadow-popover: 0px 4px 16px rgba(0, 0, 0, 0.5);
+    --notion-text-secondary: #a0a0a0; /* body */
+    --notion-sidebar-bg: rgba(20, 20, 20, 0.65); /* elevated surface */
+    --notion-border: rgba(255, 255, 255, 0.1); /* hairline */
+    --notion-hover: rgba(255, 255, 255, 0.05);
+    --notion-active: rgba(255, 255, 255, 0.08);
+    --notion-accent: #8b5cf6;
+    --notion-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
+    --notion-shadow-popover: 0px 8px 32px rgba(0, 0, 0, 0.4);
 
     /* Dark Highlights */
     --notion-hl-yellow: rgba(255, 212, 59, 0.25);
@@ -71,16 +72,16 @@
 }
 
 :root.dark-theme {
-  --notion-bg: #000000;
+  --notion-bg: rgba(10, 10, 10, 0.7);
   --notion-text: #ffffff;
-  --notion-text-secondary: #888888;
-  --notion-sidebar-bg: #111111;
-  --notion-border: #333333;
-  --notion-hover: #1f1f1f;
-  --notion-active: #2a2a2a;
-  --notion-accent: #0070f3;
-  --notion-shadow: 0px 1px 2px rgba(255, 255, 255, 0.05);
-  --notion-shadow-popover: 0px 4px 16px rgba(0, 0, 0, 0.5);
+  --notion-text-secondary: #a0a0a0;
+  --notion-sidebar-bg: rgba(20, 20, 20, 0.65);
+  --notion-border: rgba(255, 255, 255, 0.1);
+  --notion-hover: rgba(255, 255, 255, 0.05);
+  --notion-active: rgba(255, 255, 255, 0.08);
+  --notion-accent: #8b5cf6;
+  --notion-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
+  --notion-shadow-popover: 0px 8px 32px rgba(0, 0, 0, 0.4);
 
   /* Dark Highlights */
   --notion-hl-yellow: rgba(255, 212, 59, 0.25);
@@ -100,7 +101,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--notion-bg);
+  background-color: transparent;
   color: var(--notion-text);
   height: 100vh;
   overflow: hidden;
@@ -224,6 +225,8 @@ h3 {
 .notion-sidebar {
   width: 240px;
   background-color: var(--notion-sidebar-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border-right: 1px solid var(--notion-border);
   display: flex;
   flex-direction: column;
@@ -300,6 +303,9 @@ h3 {
   min-width: 0;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--notion-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .notion-content-wrapper {
@@ -317,7 +323,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background-color: var(--notion-bg);
+  background-color: transparent;
   position: sticky;
   top: 0;
   z-index: 90;
@@ -438,6 +444,8 @@ h3 {
   border-radius: var(--notion-radius-lg);
   padding: 20px;
   background: var(--notion-sidebar-bg); /* Elevated White background */
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   box-shadow: var(--notion-shadow); /* Whisper shadow */
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   margin-bottom: 16px;
@@ -482,7 +490,9 @@ h3 {
 .comment-sidebar {
   width: 280px;
   border-left: 1px solid var(--notion-border);
-  background: var(--notion-bg);
+  background: var(--notion-sidebar-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 16px;
   overflow-y: auto;
   display: flex;
@@ -718,6 +728,8 @@ h3 {
   width: 420px;
   border-left: 1px solid var(--notion-border);
   background-color: var(--notion-sidebar-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -1017,6 +1029,31 @@ h3 {
 .note-action-btn:hover {
   background-color: var(--notion-hover);
   color: var(--notion-text);
+}
+
+/* Aurora Animated Background */
+.aurora-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(125deg, #a78bfa, #f472b6, #60a5fa);
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+  opacity: 0.8;
+}
+
+:root.dark-theme .aurora-bg {
+  background: linear-gradient(125deg, #4c1d95, #831843, #1e3a8a);
+  opacity: 1;
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 
