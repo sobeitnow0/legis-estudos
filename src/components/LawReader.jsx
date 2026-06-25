@@ -290,6 +290,9 @@ export default function LawReader() {
             const isH2 = block.type === "heading-2";
             const isH3 = block.type === "heading-3";
             const isArticle = block.type === "article";
+            const isInciso = block.type === "inciso";
+            const isParagraph = block.type === "paragraph";
+            const isAlinea = block.type === "alinea" || block.type === "paragraph-item";
             const isActive = activeNoteBlockId === block.id;
             const status = blockStatuses[block.id];
             const hasNotes = !!comments[block.id];
@@ -341,7 +344,9 @@ export default function LawReader() {
                   boxShadow: isArticle ? "var(--notion-shadow)" : "none",
                   cursor: "pointer",
                   transition: "all 0.15s",
-                  marginBottom: isArticle ? "12px" : "2px"
+                  marginBottom: isArticle ? "4px" : "2px",
+                  marginLeft: isInciso || isParagraph ? "24px" : isAlinea ? "48px" : "0px",
+                  borderLeft: (isInciso || isParagraph) ? "3px solid var(--notion-border)" : isAlinea ? "3px solid var(--notion-hover)" : isArticle ? "1px solid var(--notion-border)" : "none",
                 }}
               >
                 <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
