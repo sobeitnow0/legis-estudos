@@ -286,13 +286,14 @@ export default function LawReader() {
         {/* Scrollable Blocks List */}
         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           
-          {law.blocks.map((block) => {
+          {law.blocks.map((block, index) => {
             const isH2 = block.type === "heading-2";
             const isH3 = block.type === "heading-3";
             const isArticle = block.type === "article";
             const isInciso = block.type === "inciso";
             const isAlinea = block.type === "alinea" || block.type === "paragraph-item";
             const isLegalParagraph = block.type === "paragraph" && (block.content.trim().startsWith("§") || block.content.trim().toLowerCase().startsWith("parágrafo"));
+            const isPreambulo = index === 0 && block.type === "paragraph";
             
             const isActive = activeNoteBlockId === block.id;
             const status = blockStatuses[block.id];
@@ -307,7 +308,7 @@ export default function LawReader() {
                   className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
                   style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
                 >
-                  <h2 id={`h2-${block.id}`} style={{ margin: "24px 0 12px 0", fontSize: "1.45rem", border: "none", padding: 0 }}>
+                  <h2 id={`h2-${block.id}`} style={{ margin: "32px 0 16px 0", fontSize: "1.25rem", fontWeight: 600, color: "var(--notion-text)", textTransform: "uppercase", letterSpacing: "0.05em", border: "none", padding: 0 }}>
                     {block.content}
                   </h2>
                 </div>
@@ -323,7 +324,7 @@ export default function LawReader() {
                   className={`notion-block-container ${isActive ? "active-note-block" : ""}`}
                   style={{ cursor: "pointer", padding: "8px 12px", borderRadius: "var(--notion-radius)" }}
                 >
-                  <h3 id={`h3-${block.id}`} style={{ margin: "16px 0 8px 0", fontSize: "1.15rem", color: "var(--notion-text-secondary)" }}>
+                  <h3 id={`h3-${block.id}`} style={{ margin: "24px 0 12px 0", fontSize: "1.1rem", fontWeight: 500, color: "var(--notion-text-secondary)" }}>
                     {block.content}
                   </h3>
                 </div>
@@ -338,28 +339,30 @@ export default function LawReader() {
                 onMouseUp={(e) => handleTextSelection(e, block.id)}
                 className={`notion-block-container ${isActive ? "active-note-block" : ""} ${isArticle ? "vercel-article-card" : ""}`}
                 style={{
-                  padding: isArticle ? "16px" : "8px 12px",
-                  paddingLeft: isInciso || isLegalParagraph ? "36px" : isAlinea ? "56px" : isArticle ? "16px" : "12px",
-                  borderRadius: isArticle ? "var(--notion-radius-lg)" : "var(--notion-radius)",
+                  padding: isArticle ? "20px" : "8px 12px",
+                  paddingLeft: isPreambulo ? "16px" : isInciso || isLegalParagraph ? "36px" : isAlinea ? "56px" : isArticle ? "20px" : "12px",
+                  borderRadius: isArticle ? "12px" : "var(--notion-radius)",
                   border: isArticle ? "1px solid var(--notion-border)" : "none",
+                  borderLeft: isPreambulo ? "3px solid var(--notion-accent)" : isArticle ? "1px solid var(--notion-border)" : "none",
                   backgroundColor: isArticle ? "var(--notion-sidebar-bg)" : "transparent",
-                  boxShadow: isArticle ? "var(--notion-shadow)" : "none",
+                  boxShadow: isArticle ? "0px 4px 12px rgba(0,0,0,0.15)" : "none",
                   cursor: "pointer",
                   transition: "all 0.15s",
-                  marginBottom: isArticle ? "8px" : "2px"
+                  marginBottom: isArticle ? "24px" : "4px"
                 }}
               >
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
                   {isArticle && (
                     <span
                       style={{
-                        backgroundColor: "var(--notion-accent)",
+                        background: "linear-gradient(135deg, #8b5cf6, #7c3aed)",
                         color: "white",
-                        padding: "2px 8px",
+                        padding: "4px 10px",
                         borderRadius: "12px",
-                        fontSize: "0.75rem",
+                        fontSize: "0.8rem",
                         fontWeight: 700,
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
+                        boxShadow: "0 2px 4px rgba(139, 92, 246, 0.3)"
                       }}
                     >
                       Art. {block.content.match(/^Art\.\s*(\d+[^\s]*)/i)?.[1] || "Ativo"}
@@ -371,9 +374,10 @@ export default function LawReader() {
                     style={{ 
                       flex: 1, 
                       margin: 0, 
-                      fontSize: isArticle ? "1.05rem" : "0.95rem", 
+                      fontSize: isArticle ? "1.05rem" : "1rem", 
                       fontWeight: isArticle ? 500 : 400,
-                      lineHeight: isArticle ? 1.6 : 1.5 
+                      lineHeight: 1.6,
+                      color: isPreambulo ? "var(--notion-text-secondary)" : "var(--notion-text)"
                     }}
                   >
                     {isArticle ? (

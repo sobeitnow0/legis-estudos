@@ -85,8 +85,6 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <div className="aurora-bg"></div>
-      
       {/* Sidebar */}
       <Sidebar
         collapsed={sidebarCollapsed}
